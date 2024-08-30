@@ -249,7 +249,35 @@
 ### 8a. Demonstrate use of variables and outputs
 
 - **Variables**: Used to parameterize Terraform configurations.
+
+    ```hcl
+  variable "my-var" {
+    description = "My Test Variable"
+    type = string
+    default = "Hello"
+    validation {
+      condition = length(var.my-bat) >
+      error_message = "String more than 4 characters"
+    }
+  }
+  ```
+
+    ```hcl
+  variable "my-var" {
+    description = "My Test Variable"
+    type = string
+    default = "Hello"
+    sensitive = true
+  }
+  ```
 - **Outputs**: Used to return values from modules or the root module.
+
+    ```hcl
+  output "instance_ip" {
+    description = "VM's Private IP" # Variable config arguments such as variable description and value
+    value = aws_instance.my-vm.private_ip
+  }
+  ```
 
 ### 8b. Describe secure secret injection best practice
 
@@ -259,6 +287,22 @@
 
 - **Types**: Terraform supports collections like lists and maps, and structural types like objects and tuples, which help handle complex data structures.
 
+    ```hcl
+  variable "training" {
+    type = list(string)
+    default = ["ACG","LA"] # Two separate strings in one variable
+  }
+  ```
+
+    ```hcl
+  variable "instructor" {
+      type = object ({
+        name = string
+        age = number # Primitive types several named attributes
+      })
+  }
+  ```
+
 ### 8d. Create and differentiate resource and data configuration
 
 - **Resources**: Used to create and manage infrastructure (e.g., `aws_instance`).
@@ -267,6 +311,26 @@
 ### 8e. Use resource addressing and resource parameters to connect resources together
 
 - **Resource Addressing**: Terraform allows you to reference resources using their addresses, like `aws_instance.my_instance`. This is used to define relationships and dependencies between resources.
+
+  ```hcl
+  provider "aws" {
+    region = "us-east-1" # Configuration parameters
+  }
+  ```
+
+    ```hcl
+  resource "aws_instance" "web" {
+    ami = "ami-a1bsas9as9" # Configuration parameters
+    instance_type = "t4g.medium"
+  }
+  ```
+
+    ```hcl
+  data "aws_instance" "my-vm" {
+    instance_id = "i-1asd12321eeadfs1"
+  }
+  # Resource Address --> data.aws_instance.my-vm
+  ```
 
 ### 8f. Use HCL and Terraform functions to write configuration
 
@@ -282,6 +346,8 @@
 ### 9a. Explain how HCP Terraform helps to manage infrastructure
 
 - **HCP Terraform**: The HashiCorp Cloud Platform (HCP) provides a managed service for Terraform that includes features like secure remote state storage, team collaboration, and governance.
+
+![Terraform Cloud Folder](../assets/tf-cloud.png)
 
 ### 9b. Describe how HCP Terraform enables collaboration and governance
 
