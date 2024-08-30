@@ -267,6 +267,27 @@ resource "aws_instance" "example" {
 - General syntax: `function_name(arg1, arg2, …)`
 - Built-in functions help make Terraform code dynamic and flexible.
 
+Examples of Terraform built-in functions:
+
+| Function     | Description                                                     |
+| ------------ | --------------------------------------------------------------- |
+| `abs`        | Returns the absolute value of a number.                         |
+| `ceil`       | Rounds a number up to the nearest whole number.                 |
+| `floor`      | Rounds a number down to the nearest whole number.               |
+| `max`        | Returns the maximum value from a list of numbers.               |
+| `min`        | Returns the minimum value from a list of numbers.               |
+| `concat`     | Concatenates multiple strings together.                         |
+| `element`    | Returns the element at a specific index in a list.              |
+| `length`     | Returns the length of a string or list.                         |
+| `lower`      | Converts a string to lowercase.                                 |
+| `upper`      | Converts a string to uppercase.                                 |
+| `replace`    | Replaces occurrences of a substring in a string.                |
+| `split`      | Splits a string into a list of substrings based on a delimiter. |
+| `join`       | Joins a list of strings into a single string using a delimiter. |
+| `format`     | Formats a string using placeholders and values.                 |
+| `jsonencode` | Converts a value to its JSON representation.                    |
+| `jsondecode` | Converts a JSON string to its corresponding value.              |
+
 ## Type Constraints
 
 ### Primitive Types
