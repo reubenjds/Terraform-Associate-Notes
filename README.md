@@ -273,7 +273,7 @@ variable "port" {
 
 Example:
 
-````hcl
+```hcl
 resource "aws_instance" "example" {
   # resource configuration
   provisioner "remote-exec" {
@@ -283,9 +283,7 @@ resource "aws_instance" "example" {
     ]
   }
 }
-
-```markdown
-````
+```
 
 ### Local Exec Provisioners
 
