@@ -347,7 +347,7 @@
 
 - **HCP Terraform**: The HashiCorp Cloud Platform (HCP) provides a managed service for Terraform that includes features like secure remote state storage, team collaboration, and governance.
 
-![Terraform Cloud Folder](../assets/tf-cloud.png)
+![Terraform Cloud Folder](./assets/tf-cloud.png)
 
 ### 9b. Describe how HCP Terraform enables collaboration and governance
 
