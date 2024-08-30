@@ -1,287 +1,361 @@
 # HashiCorp Certified: Terraform Associate (003) Notes
 
-1. [Understand Infrastructure as Code (IaC) Concepts](#1-understand-infrastructure-as-code-iac-concepts)
-   - [1a. Explain what IaC is](#1a-explain-what-iac-is)
-   - [1b. Describe advantages of IaC patterns](#1b-describe-advantages-of-iac-patterns)
-2. [Understand the purpose of Terraform (vs other IaC)](#2-understand-the-purpose-of-terraform-vs-other-iac)
-   - [2a. Explain multi-cloud and provider-agnostic benefits](#2a-explain-multi-cloud-and-provider-agnostic-benefits)
-   - [2b. Explain the benefits of state](#2b-explain-the-benefits-of-state)
-3. [Understand Terraform basics](#3-understand-terraform-basics)
-   - [3a. Install and version Terraform providers](#3a-install-and-version-terraform-providers)
-   - [3b. Describe plugin-based architecture](#3b-describe-plugin-based-architecture)
-   - [3c. Write Terraform configuration using multiple providers](#3c-write-terraform-configuration-using-multiple-providers)
-   - [3d. Describe how Terraform finds and fetches providers](#3d-describe-how-terraform-finds-and-fetches-providers)
-4. [Use Terraform outside the core workflow](#4-use-terraform-outside-the-core-workflow)
-   - [4a. Describe when to use terraform import to import existing infrastructure into your Terraform state](#4a-describe-when-to-use-terraform-import-to-import-existing-infrastructure-into-your-terraform-state)
-   - [4b. Use terraform state to view Terraform state](#4b-use-terraform-state-to-view-terraform-state)
-   - [4c. Describe when to enable verbose logging and what the outcome/value is](#4c-describe-when-to-enable-verbose-logging-and-what-the-outcomevalue-is)
-5. [Interact with Terraform modules](#5-interact-with-terraform-modules)
-   - [5a. Contrast and use different module source options including the public Terraform Module Registry](#5a-contrast-and-use-different-module-source-options-including-the-public-terraform-module-registry)
-   - [5b. Interact with module inputs and outputs](#5b-interact-with-module-inputs-and-outputs)
-   - [5c. Describe variable scope within modules/child modules](#5c-describe-variable-scope-within-moduleschild-modules)
-   - [5d. Set module version](#5d-set-module-version)
-6. [Use the core Terraform workflow](#6-use-the-core-terraform-workflow)
-   - [6a. Describe Terraform workflow (Write -> Plan -> Create)](#6a-describe-terraform-workflow--write---plan---create-)
-   - [6b. Initialize a Terraform working directory (terraform init)](#6b-initialize-a-terraform-working-directory-terraform-init)
-   - [6c. Validate a Terraform configuration (terraform validate)](#6c-validate-a-terraform-configuration-terraform-validate)
-   - [6d. Generate and review an execution plan for Terraform (terraform plan)](#6d-generate-and-review-an-execution-plan-for-terraform-terraform-plan)
-   - [6e. Execute changes to infrastructure with Terraform (terraform apply)](#6e-execute-changes-to-infrastructure-with-terraform-terraform-apply)
-   - [6f. Destroy Terraform managed infrastructure (terraform destroy)](#6f-destroy-terraform-managed-infrastructure-terraform-destroy)
-   - [6g. Apply formatting and style adjustments to a configuration (terraform fmt)](#6g-apply-formatting-and-style-adjustments-to-a-configuration-terraform-fmt)
-7. [Implement and maintain state](#7-implement-and-maintain-state)
-   - [7a. Describe default local backend](#7a-describe-default-local-backend)
-   - [7b. Describe state locking](#7b-describe-state-locking)
-   - [7c. Handle backend and cloud integration authentication methods](#7c-handle-backend-and-cloud-integration-authentication-methods)
-   - [7d. Differentiate remote state back end options](#7d-differentiate-remote-state-back-end-options)
-   - [7e. Manage resource drift and Terraform state](#7e-manage-resource-drift-and-terraform-state)
-   - [7f. Describe backend block and cloud integration in configuration](#7f-describe-backend-block-and-cloud-integration-in-configuration)
-   - [7g. Understand secret management in state files](#7g-understand-secret-management-in-state-files)
-8. [Read, generate, and modify configuration](#8-read-generate-and-modify-configuration)
-   - [8a. Demonstrate use of variables and outputs](#8a-demonstrate-use-of-variables-and-outputs)
-   - [8b. Describe secure secret injection best practice](#8b-describe-secure-secret-injection-best-practice)
-   - [8c. Understand the use of collection and structural types](#8c-understand-the-use-of-collection-and-structural-types)
-   - [8d. Create and differentiate resource and data configuration](#8d-create-and-differentiate-resource-and-data-configuration)
-   - [8e. Use resource addressing and resource parameters to connect resources together](#8e-use-resource-addressing-and-resource-parameters-to-connect-resources-together)
-   - [8f. Use HCL and Terraform functions to write configuration](#8f-use-hcl-and-terraform-functions-to-write-configuration)
-   - [8g. Describe built-in dependency management (order of execution based)](#8g-describe-built-in-dependency-management-order-of-execution-based)
-9. [Understand HCP Terraform capabilities](#9-understand-hcp-terraform-capabilities)
-   - [9a. Explain how HCP Terraform helps to manage infrastructure](#9a-explain-how-hcp-terraform-helps-to-manage-infrastructure)
-   - [9b. Describe how HCP Terraform enables collaboration and governance](#9b-describe-how-hcp-terraform-enables-collaboration-and-governance)
+This repository contains notes for the HashiCorp Certified: Terraform Associate (003) exam. The notes are based on the [official study guide](https://learn.hashicorp.com/tutorials/terraform/associate-study) provided by HashiCorp.
+
+> **For the exam objectives and general information go [here](./objectives.md)**
 
-**Exam Format**: True/False, Multiple Choice, Multiple Answers, Short Answer (Text Match)
+## Table of Contents
 
-# Terraform Certification Notes
+1. [Infrastructure as Code (IaC)](#infrastructure-as-code-iac)
+2. [Terraform Workflow](#terraform-workflow)
+3. [Terraform Commands](#terraform-commands)
+   1. [Terraform Init](#terraform-init)
+   2. [Terraform Plan](#terraform-plan)
+   3. [Terraform Apply](#terraform-apply)
+   4. [Terraform Destroy](#terraform-destroy)
+4. [Installing Terraform](#installing-terraform)
+5. [Terraform Providers](#terraform-providers)
+6. [Terraform State](#terraform-state)
+   1. [Local State Storage](#local-state-storage)
+   2. [Remote State Storage](#remote-state-storage)
+7. [Variables](#variables)
+   1. [Base Types](#base-types)
+   2. [Complex Types](#complex-types)
+8. [Outputs](#outputs)
+9. [Terraform Provisioners](#terraform-provisioners)
+10. [Terraform Modules](#terraform-modules)
+11. [Terraform Built-in Functions](#terraform-built-in-functions)
+12. [Type Constraints - Terraform Variables](#type-constraints-terraform-variables)
+13. [Dynamic Blocks](#dynamic-blocks)
+14. [Terraform CLI Utilities](#terraform-cli-utilities)
+    1. [Terraform fmt](#terraform-fmt)
+    2. [Terraform taint](#terraform-taint)
+    3. [Terraform import](#terraform-import)
+15. [Terraform Configuration Block](#terraform-configuration-block)
+16. [Terraform Workspaces](#terraform-workspaces)
+17. [Debugging Terraform](#debugging-terraform)
+18. [Terraform Cloud and Enterprise Offerings](#terraform-cloud-and-enterprise-offerings)
+    1. [Hashicorp Sentinel](#hashicorp-sentinel)
+    2. [Terraform Vault](#terraform-vault)
+    3. [Terraform Registry](#terraform-registry)
+    4. [Terraform Cloud Workspaces](#terraform-cloud-workspaces)
+    5. [Terraform OSS Workspaces](#terraform-oss-workspaces)
+    6. [Benefits of Terraform Cloud](#benefits-of-terraform-cloud)
+19. [Benefits of Terraform Cloud](#benefits-of-terraform-cloud)
 
-## 1. Understand Infrastructure as Code (IaC) Concepts
+---
 
-### 1a. Explain what IaC is
+## Infrastructure as Code (IaC)
 
-- **IaC (Infrastructure as Code)**: A practice where infrastructure is provisioned and managed using code instead of manual processes. It involves writing what you want to deploy in a human-readable form.
-- **DevOps Enablement**: IaC is tracked in version control, allowing for better visibility and collaboration across teams.
-- **Declarative Approach**: Infrastructure is defined declaratively via code, though it can also be procedural.
+- **No More Clicks**: Write down what you want to deploy (VMs, disks, apps, etc.) as human-readable code.
+- **Enables DevOps**: Codification of deployment means it can be tracked in version control, enabling better visibility and collaboration across teams.
+- **Declare Your Infrastructure**: Infrastructure is typically written declaratively via code but can be procedural (imperative) too.
+- **Speed, Cost, and Reduced Risk**: Less human intervention during deployment reduces chances of security flaws, unnecessary resources, and saves time.
 
-### 1b. Describe advantages of IaC patterns
+## Terraform Workflow
 
-- **Speed**: Automates deployment processes, saving time.
-- **Cost Reduction**: Minimizes manual intervention, reducing errors and excess resource usage.
-- **Reduced Risk**: Less human error means fewer security vulnerabilities.
+1. **Write Your Terraform Code**
 
-## 2. Understand the purpose of Terraform (vs other IaC)
+   - Start by creating a GitHub repo as a common best practice.
 
-### 2a. Explain multi-cloud and provider-agnostic benefits
+2. **Review**
 
-- **Multi-Cloud Support**: Terraform works with a variety of cloud providers, both public and private, making it provider-agnostic.
-- **Unified Workflow**: Interacts with different cloud APIs using a consistent syntax.
+   - Continually add and review changes to the code in your project.
 
-### 2b. Explain the benefits of state
+3. **Deploy**
+   - After one last review/plan, you'll be ready to provision real infrastructure.
 
-- **State Tracking**: Terraform maintains a state file (`terraform.tfstate`) to keep track of resource statuses. This is crucial for managing and updating resources effectively.
-- **Deployment Planning**: Helps calculate changes needed and creates execution plans.
+## Terraform Commands
 
-## 3. Understand Terraform basics
+### Terraform Init
 
-### 3a. Install and version Terraform providers
+- Initializes the working directory that contains your Terraform code.
+- Downloads ancillary components such as modules and plugins.
+- Sets up the backend for storing the Terraform state file.
 
-- **Installation**: Terraform can be installed by downloading the binary or using package managers. Providers are installed using `terraform init`.
-- **Versioning**: Providers should be pinned to specific versions to avoid breaking changes.
+### Terraform Plan
 
-### 3b. Describe plugin-based architecture
+- Reads the code and creates a "plan" of execution or deployment.
+- This command does not deploy anything; it is considered a read-only command.
+- Allows users to review the action plan before executing any changes.
 
-- **Providers**: Terraform uses plugins, known as providers, to interact with cloud platforms and other services.
-- **Registry**: Providers are sourced from the Terraform providers registry or can be custom-built.
+### Terraform Apply
 
-### 3c. Write Terraform configuration using multiple providers
+- Deploys the instructions and statements defined in the code.
+- Updates the deployment state tracking mechanism, known as the "state file."
 
-- **Configuration**: Multiple providers can be declared in a Terraform configuration file to manage resources across different services.
-- **Example**:
+### Terraform Destroy
 
-  ```hcl
-  provider "aws" {
-    region = "us-east-1"
-  }
+- Looks at the recorded state file and destroys all resources created by the code.
+- This is a non-reversible command, so use it with caution. Backups are recommended.
 
-  provider "google" {
-    region = "us-central1"
-  }
-  ```
+## Installing Terraform
 
-### 3d. Describe how Terraform finds and fetches providers
+1. **Method 1: Download, Unzip, Use**
 
-- **Initialization**: During `terraform init`, Terraform downloads and installs the required providers.
-- **Provider Source**: By default, Terraform looks in the Terraform providers registry.
+   - Download the zipped binary from the HashiCorp website.
+   - Unzip the Terraform binary.
+   - Place it in your system’s `$PATH` as a best practice.
 
-## 4. Use Terraform outside the core workflow
+2. **Method 2: Set Up Terraform Repository on Linux**
+   - Set up a HashiCorp Terraform repository on Linux (Debian, RHEL, Amazon Linux).
+   - Use a package manager to install Terraform.
+   - The package manager installs and sets it up for immediate use.
 
-### 4a. Describe when to use terraform import to import existing infrastructure into your Terraform state
+## Terraform Providers
 
-- **Use Case**: When managing existing resources not initially created by Terraform. The `terraform import` command brings these resources into Terraform's management.
+- Providers are Terraform’s way of abstracting integrations with the API control layer of infrastructure vendors.
+- By default, Terraform looks for providers in the Terraform Providers Registry ([Terraform Providers Registry](https://registry.terraform.io/browse/providers)).
+- Providers are plugins released independently of Terraform's core software, with their own versioning.
+- Custom providers can be written if needed (beyond the scope of certification).
+- During initialization (via `terraform init`), Terraform finds and installs providers.
+- Best practice: Providers should be pinned to a specific version to avoid breaking changes.
 
-### 4b. Use terraform state to view Terraform state
+## Terraform State
 
-- **Viewing State**: Commands like `terraform state list` and `terraform state show` allow users to inspect the current state file and the resources it manages.
+- **Resource Tracking**: A mechanism for Terraform to keep tabs on deployed resources.
+- Stored in flat files, typically named `terraform.tfstate`.
+- Helps Terraform calculate deployment deltas and create new deployment plans.
+- It's crucial not to lose your Terraform state file.
 
-### 4c. Describe when to enable verbose logging and what the outcome/value is
+### Local State Storage
 
-- **Verbose Logging**: Enabled by setting the environment variable `TF_LOG` to `TRACE`, `DEBUG`, etc., to provide detailed execution logs. This is useful for debugging and understanding Terraform's behavior.
+- Saves the Terraform state file locally on your system.
+- This is Terraform's default behavior.
 
-## 5. Interact with Terraform modules
+### Remote State Storage
 
-### 5a. Contrast and use different module source options including the public Terraform Module Registry
+- Saves the state file to a remote data source (e.g., AWS S3, Google Storage).
+- Allows sharing the state file between distributed teams.
+- Remote state is accessible to multiple teams for collaboration.
+- Enables state locking to prevent coinciding parallel executions.
+- Supports sharing "output" values with other Terraform configurations or code.
 
-- **Sources**: Modules can be sourced from the public Terraform Module Registry, private registries, or local paths.
-- **Example**:
-  ```hcl
-  module "network" {
-    source = "terraform-aws-modules/vpc/aws"
-    version = "2.0"
-  }
-  ```
+## Variables
 
-### 5b. Interact with module inputs and outputs
+### Base Types
 
-- **Inputs**: Parameters passed to the module, used within the module as variables.
-- **Outputs**: Values returned by the module to be used by the root module or other modules.
+- **String**: Represents text.
+- **Number**: Represents numerical values.
+- **Bool**: Represents true or false values.
 
-### 5c. Describe variable scope within modules/child modules
+### Complex Types
 
-- **Scope**: Variables declared in the root module can be passed down to child modules. Variables are scoped to their respective modules unless explicitly passed.
+- **List**: A sequence of values.
+- **Set**: A collection of unique values.
+- **Map**: A collection of key-value pairs.
+- **Object**: A complex structure of named attributes.
+- **Tuple**: A sequence of values, which can be of different types.
 
-### 5d. Set module version
+## Outputs
 
-- **Versioning**: Specifying a module version ensures compatibility and stability. Example:
+- Output variables display values in the shell after running `terraform apply`.
+- Output values act like return values you want to track after a successful Terraform deployment.
 
-  ````hcl
-  module "network" {
-    source  = "terraform-aws-modules/vpc/aws"
-    version = "2.0.0"
-  }
+## Terraform Provisioners
 
-  ```markdown
-  ````
+- Provisioners bootstrap custom scripts, commands, or actions during deployment.
+- They can run locally (on the system where Terraform is executed) or remotely on deployed resources.
+- Each resource can have its own provisioner, defining the connection method.
+- **Note**: HashiCorp recommends using provisioners as a last resort. Use inherent mechanisms for custom tasks where possible.
+- Terraform cannot track changes made by provisioners, as they can take independent actions.
+- Provisioners are ideal for invoking actions not covered by Terraform's declarative model.
+- A non-zero return code from a provisioner marks the resource as tainted.
 
-## 6. Use the core Terraform workflow
+## Terraform Modules
 
-### 6a. Describe Terraform workflow (Write -> Plan -> Create)
+- A module is a container for multiple resources used together.
+- Every Terraform configuration has at least one module, known as the root module, consisting of code files in the main working directory.
 
-1. **Write**: Define infrastructure as code in `.tf` files.
-2. **Plan**: Run `terraform plan` to preview changes.
-3. **Apply**: Execute `terraform apply` to create/update infrastructure.
+### Accessing Terraform Modules
 
-### 6b. Initialize a Terraform working directory (terraform init)
+- Modules can be downloaded or referenced from:
+  - Terraform public registry
+  - A private registry
+  - Your local system
+- Modules are referenced using a `module` block.
+- Additional parameters for module configuration:
+  - `count`
+  - `for_each`
+  - `providers`
+  - `depends_on`
 
-- Prepares the directory by downloading providers and modules.
+### Using Terraform Modules
 
-### 6c. Validate a Terraform configuration (terraform validate)
+- Modules can take input and provide output to integrate with the main code.
 
-- Checks the syntax and internal consistency of Terraform configuration files.
+### Declaring Modules in Code
 
-### 6d. Generate and review an execution plan for Terraform (terraform plan)
+- Module inputs are named parameters passed inside the module block and used as variables inside the module code.
 
-- Creates an execution plan showing what changes will be made.
+### Terraform Module Outputs
 
-### 6e. Execute changes to infrastructure with Terraform (terraform apply)
+- Outputs declared inside module code can feed back into the root module or main code.
+- Output convention: `module.<name-of-module>.<name-of-output>`
 
-- Applies the changes as per the plan to the actual infrastructure.
+## Terraform Built-in Functions
 
-### 6f. Destroy Terraform managed infrastructure (terraform destroy)
+- Terraform comes with pre-packaged functions to help transform and combine values.
+- User-defined functions are not allowed; only built-in ones can be used.
+- General syntax: `function_name(arg1, arg2, …)`
+- Built-in functions help make Terraform code dynamic and flexible.
 
-- Destroys all resources defined in the Terraform configuration.
+## Type Constraints
 
-### 6g. Apply formatting and style adjustments to a configuration (terraform fmt)
+### Primitive Types
 
-- Automatically formats Terraform configuration files to canonical style.
+- **Number**
+- **String**
+- **Bool**
 
-## 7. Implement and maintain state
+### Complex Types
 
-### 7a. Describe default local backend
+- **List**
+- **Tuple**
+- **Map**
+- **Object**
+- **Collection**: These allow multiple values of one primitive type to be grouped together.
 
-- **Local Backend**: By default, Terraform stores the state file locally on disk.
+  - Constructors for collections include:
+    - `list(type)`: A list of values of a specific type.
+    - `map(type)`: A map of keys to values, all of a specific type.
+    - `set(type)`: A set of unique values of a specific type.
 
-### 7b. Describe state locking
+- **Structural Types**: These allow multiple values of different primitive types to be grouped together.
 
-- **State Locking**: Prevents simultaneous updates to the state file by locking it during operations.
+  - Constructors for structural collections include:
+    - `object(type)`: An object with named attributes, each having a type.
+    - `tuple(type)`: A tuple that can have a fixed number of elements, each with a different type.
 
-### 7c. Handle backend and cloud integration authentication methods
+- **Any Constraint**: This is a placeholder for a primitive type that has yet to be decided. The actual type is determined at runtime.
 
-- **Authentication**: Uses various methods like AWS credentials, GCP service accounts, etc., to authenticate with backends.
+## Dynamic Blocks
 
-### 7d. Differentiate remote state back end options
+- **Purpose**: Dynamic blocks construct repeatable nested configuration blocks inside Terraform resources.
+- **Supported Block Types**: Dynamic blocks are supported within the following block types:
 
-- **Remote Backends**: Options include AWS S3, Google Cloud Storage, and others for storing state files remotely.
+  - `resource`
+  - `data`
+  - `provider`
+  - `provisioner`
 
-### 7e. Manage resource drift and Terraform state
+- **Usage**: Dynamic blocks make your code cleaner by reducing redundancy. They act like a for loop, outputting a nested block for each element in a complex variable type.
 
-- **Resource Drift**: Regular state refresh and `terraform plan` help detect and manage changes not made through Terraform.
+- **Caution**: Overuse of dynamic blocks can make code hard to read and maintain. Use them to build a cleaner user interface when writing reusable modules.
 
-### 7f. Describe backend block and cloud integration in configuration
+## Additional Terraform Commands
 
-- **Backend Block**: Defines where the state is stored, e.g., in an S3 bucket.
+### Terraform fmt
 
-  ```hcl
-  backend "s3" {
-    bucket = "my-tf-state"
-    key    = "path/to/my/key"
-    region = "us-east-1"
-  }
-  ```
+- **Purpose**: Formats Terraform code for readability and ensures consistent styling across the codebase.
+- **Usage**: Safe to run at any time to maintain code quality.
+- **CLI Command**: `terraform fmt`
+- **Scenarios**:
+  - Before pushing code to version control.
+  - After upgrading Terraform or its modules.
+  - Any time code changes are made.
 
-  ### 7g. Understand secret management in state files
+### Terraform taint
 
-- **Secrets in State**: Sensitive data may be stored in state files, so securing state storage is critical. Use encryption and secure storage options to protect sensitive information.
+- **Purpose**: Taints a resource, forcing it to be destroyed and recreated. This modifies the state file, leading to a recreation workflow during the next `apply`.
+- **CLI Command**: `terraform taint RESOURCE_ADDRESS`
+- **Scenarios**:
+  - To ensure provisioners run again.
+  - To replace misbehaving resources.
+  - To mimic side effects of recreation not modeled by resource attributes.
 
-## 8. Read, generate, and modify configuration
+### Terraform import
 
-### 8a. Demonstrate use of variables and outputs
+- **Purpose**: Maps existing resources to Terraform using a resource-specific identifier (ID).
+- **CLI Command**: `terraform import RESOURCE_ADDRESS ID`
+- **Scenarios**:
+  - When needing to manage existing resources not originally created by Terraform.
+  - When creation of new resources is not permitted.
+  - When not in control of the initial infrastructure creation process.
 
-- **Variables**: Used to parameterize Terraform configurations.
-- **Outputs**: Used to return values from modules or the root module.
+## Terraform Configuration Block
 
-### 8b. Describe secure secret injection best practice
+- **Purpose**: A special block for controlling Terraform’s own behavior. This block accepts only constant values.
+- **Examples**:
+  - Configuring backends for state file storage.
+  - Specifying a required Terraform version.
+  - Specifying required provider versions.
+  - Enabling and testing Terraform experimental features.
+  - Passing metadata to providers.
 
-- **Best Practices**: Use environment variables or secret management tools (e.g., Vault) to inject secrets securely into Terraform configurations without exposing them in code or state files.
+## Terraform Workspaces
 
-### 8c. Understand the use of collection and structural types
+- **Definition**: Terraform workspaces are alternate state files within the same working directory.
+- **Default Workspace**: Terraform starts with a single workspace named `default`, which cannot be deleted.
+- **Scenarios**:
+  - Testing changes using a parallel, distinct copy of infrastructure.
+  - Workspaces can be modeled against branches in version control systems like Git.
+- **Collaboration**: Workspaces facilitate resource sharing and team collaboration.
+- **Access**: The current workspace name is available via the `${terraform.workspace}` variable.
 
-- **Types**: Terraform supports collections like lists and maps, and structural types like objects and tuples, which help handle complex data structures.
+## Debugging Terraform
 
-### 8d. Create and differentiate resource and data configuration
+- **TF_LOG**: An environment variable to enable verbose logging. By default, logs are sent to stderr.
+- **Log Levels**: TRACE, DEBUG, INFO, WARN, ERROR, with TRACE being the most verbose.
+- **Persisting Logs**: Use the `TF_LOG_PATH` environment variable to save logs to a file.
+- **Setting Logging in Linux**:
+  - `export TF_LOG=TRACE`
+  - `export TF_LOG_PATH=./terraform.log`
 
-- **Resources**: Used to create and manage infrastructure (e.g., `aws_instance`).
-- **Data Sources**: Used to fetch existing resources or data that Terraform does not manage (e.g., `aws_ami`).
+## Terraform Cloud and Enterprise Offerings
 
-### 8e. Use resource addressing and resource parameters to connect resources together
+### Hashicorp Sentinel
 
-- **Resource Addressing**: Terraform allows you to reference resources using their addresses, like `aws_instance.my_instance`. This is used to define relationships and dependencies between resources.
+- **Definition**: A Policy-as-Code tool integrated with Terraform to enforce compliance and best practices.
+- **Language**: Uses the Sentinel policy language, which is designed to be understandable by non-programmers.
+- **Benefits**:
+  - **Sandboxing**: Acts as a guardrail for automation.
+  - **Codification**: Makes policies easier to understand and collaborate on.
+  - **Version Control**: Allows policies to be version-controlled.
+  - **Testing and Automation**: Supports automated policy enforcement.
 
-### 8f. Use HCL and Terraform functions to write configuration
+### Use Cases for Sentinel
 
-- **HCL (HashiCorp Configuration Language)**: The syntax used for writing Terraform configuration files. It is designed to be both human-readable and machine-friendly.
-- **Terraform Functions**: Terraform includes built-in functions such as `join()`, `split()`, and `lookup()` that are used to manipulate and manage data within configuration files.
+- Enforcing CIS (Center for Internet Security) standards across AWS accounts.
+- Restricting instance types to only allow `t3.micro`.
+- Ensuring security groups do not permit traffic on port 22.
 
-### 8g. Describe built-in dependency management (order of execution based)
+### Terraform Vault
 
-- **Dependency Management**: Terraform automatically manages dependencies between resources. It understands which resources need to be created or destroyed first based on their dependencies. This ensures that the infrastructure is created and modified in the correct order.
+- **Definition**: A secrets management tool that dynamically provisions and rotates credentials.
+- **Security**: Encrypts sensitive data both in transit and at rest, providing fine-grained access control using ACLs.
+- **Benefits**:
+  - Reduces the need for developers to manage long-lived credentials.
+  - Injects secrets into Terraform deployments at runtime.
+  - Offers fine-grained ACLs for accessing temporary credentials.
 
-## 9. Understand HCP Terraform capabilities
+### Terraform Registry
 
-### 9a. Explain how HCP Terraform helps to manage infrastructure
+- **Definition**: A repository for publicly available Terraform providers and modules.
+- **Features**:
+  - Publish and share custom modules.
+  - Collaborate with contributors on provider and module development.
+  - Directly reference modules in Terraform code.
 
-- **HCP Terraform**: The HashiCorp Cloud Platform (HCP) provides a managed service for Terraform that includes features like secure remote state storage, team collaboration, and governance.
+### Terraform Cloud Workspaces
 
-### 9b. Describe how HCP Terraform enables collaboration and governance
+- **Definition**: Workspaces hosted in Terraform Cloud.
+- **Features**:
+  - Stores old versions of state files by default.
+  - Maintains a record of all execution activities.
+  - All Terraform commands are executed on managed Terraform Cloud VMs.
 
-- **Collaboration**: HCP Terraform allows multiple team members to work on the same Terraform configurations, with state management features to prevent conflicts.
-- **Governance**: Includes tools for policy enforcement (such as Sentinel) to ensure compliance with organizational standards and best practices.
+### Terraform OSS Workspaces
 
-| Feature                       | HashiCorp Cloud Platform (HCP)                                      | Local State                                                       | External State                                                                       |
-| ----------------------------- | ------------------------------------------------------------------- | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
-| **Storage Location**          | Managed by HashiCorp in the cloud                                   | Stored on local disk of the user's machine                        | Stored in remote services (e.g., AWS S3, Azure Blob Storage)                         |
-| **Access Control**            | Built-in authentication and RBAC (Role-Based Access Control)        | Access controlled by file system permissions                      | Access control managed by the external service (e.g., IAM policies for S3)           |
-| **Collaboration**             | Native support for team collaboration with shared state and locking | Limited, as only the local user can modify the state              | Supports collaboration through state locking and shared access via remote storage    |
-| **State Locking**             | Automatic state locking to prevent conflicts                        | No built-in locking; risk of state corruption with concurrent use | Supports state locking using a service like DynamoDB (with S3 backend)               |
-| **Security**                  | Secure storage with encryption and automated backups                | Relies on local machine's security; encryption is manual          | Security features depend on the remote service (e.g., server-side encryption for S3) |
-| **Backup and Recovery**       | Automatic state versioning and backups                              | Manual backups required                                           | Automatic backups and versioning can be configured (e.g., S3 versioning)             |
-| **Scalability**               | Highly scalable, managed by HashiCorp                               | Limited by local machine's storage capacity and performance       | Scalable based on the chosen external storage solution                               |
-| **Ease of Setup**             | Simple setup with Terraform Cloud integration                       | Very easy, no setup needed for local use                          | Requires configuration of backend and authentication                                 |
-| **Cost**                      | Subscription-based pricing model for HCP                            | No cost beyond local storage                                      | Cost depends on the external storage service (e.g., AWS S3 storage fees)             |
-| **Compliance and Governance** | Built-in compliance tools like Sentinel for policy enforcement      | No built-in compliance tools                                      | Compliance depends on the external service; may require custom solutions             |
+- **Definition**: Stores alternate state files in the same working directory.
+- **Feature**: Creates separate directories within the main Terraform directory.
+
+## Benefits of Terraform Cloud
+
+- **Collaboration**: Enables a collaborative Terraform workflow.
+  - Remote execution of Terraform.
+  - Workspace-based organizational model.
+  - Integration with version control systems (e.g., GitHub, Bitbucket).
+  - Remote state management and CLI integration.
+  - Private Terraform module registry.
+  - Features like cost estimation and Sentinel integration.
