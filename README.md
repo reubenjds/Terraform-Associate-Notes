@@ -14,7 +14,10 @@ This repository contains notes for the HashiCorp Certified: Terraform Associate 
    3. [Terraform Apply](#terraform-apply)
    4. [Terraform Destroy](#terraform-destroy)
 4. [Installing Terraform](#installing-terraform)
-5. [Terraform Providers](#terraform-providers)
+5. [Common Terraform Blocks](#terraform-blocks)
+   1. [Terraform Providers](#terraform-providers)
+   2. [Terraform Resources](#terraform-resources)
+   3. [Terraform Data Blocks](#terraform-data-blocks)
 6. [Terraform State](#terraform-state)
    1. [Local State Storage](#local-state-storage)
    2. [Remote State Storage](#remote-state-storage)
@@ -104,7 +107,9 @@ This repository contains notes for the HashiCorp Certified: Terraform Associate 
    - Use a package manager to install Terraform.
    - The package manager installs and sets it up for immediate use.
 
-## Terraform Providers
+## Terraform Blocks
+
+### Terraform Providers
 
 - Providers are Terraform’s way of abstracting integrations with the API control layer of infrastructure vendors.
 - By default, Terraform looks for providers in the Terraform Providers Registry ([Terraform Providers Registry](https://registry.terraform.io/browse/providers)).
@@ -112,6 +117,46 @@ This repository contains notes for the HashiCorp Certified: Terraform Associate 
 - Custom providers can be written if needed (beyond the scope of certification).
 - During initialization (via `terraform init`), Terraform finds and installs providers.
 - Best practice: Providers should be pinned to a specific version to avoid breaking changes.
+
+### Terraform Resources
+
+- Resource blocks are fundamental building blocks in Terraform that define the infrastructure components to be managed. They create, update, and delete infrastructure resources like virtual machines, storage accounts, networking components, etc.
+- **Usage**: Defined using the `resource` keyword, each block specifies the resource type and a name to reference it within the configuration.
+- A resource block typically includes:
+  - The `resource` keyword.
+  - The type of resource (e.g., `aws_instance`, `azurerm_virtual_network`).
+  - A local name to reference the resource.
+  - Configuration arguments that define the resource's properties.
+
+```hcl
+resource "<PROVIDER>_<RESOURCE_TYPE>" "<NAME>" {
+  # Configuration arguments
+}
+```
+
+### Terraform Data
+
+- Data blocks in Terraform are used to fetch and reference data from external sources or existing infrastructure that is not managed by the current Terraform configuration. This allows Terraform to use external information dynamically in its configurations.
+- **Usage**: Data blocks are defined using the `data` keyword, followed by the type of data source and a name. The data can then be accessed and used in other parts of the Terraform configuration.
+- A data block typically includes:
+  - The `data` keyword.
+  - The data source type (e.g., `aws_ami`, `azurerm_resource_group`).
+  - A local name to reference the data.
+  - Configuration arguments that specify the data to fetch.
+
+```hcl
+data "<PROVIDER>_<DATA_SOURCE_TYPE>" "<NAME>" {
+  # Configuration arguments
+}
+```
+
+### Addressing Provider, Data, and Resource Blocks
+
+| **Block Type** | **Addressing Format**             |
+| -------------- | --------------------------------- |
+| **Provider**   | `provider.<provider_name>`        |
+| **Data**       | `data.<data_source_type>.<name>`  |
+| **Resource**   | `resource.<resource_type>.<name>` |
 
 ## Terraform State
 
@@ -155,6 +200,36 @@ These commands are used to manipulate and interact with the Terraform state file
 - **String**: Represents text.
 - **Number**: Represents numerical values.
 - **Bool**: Represents true or false values.
+
+### Sensitive Variables
+
+- Sensitive variables are used to handle sensitive information such as passwords, API keys, or any confidential data. Marking a variable as sensitive prevents its value from being displayed in the Terraform output logs, thus helping to secure sensitive data.
+- **Usage**: Use the `sensitive` argument to mark a variable as sensitive.
+
+```hcl
+variable "db_password" {
+  description = "The password for the database"
+  type        = string
+  sensitive   = true
+}
+```
+
+### Variable Validation
+
+- Variable validation ensures that input values meet specific criteria before Terraform uses them. This helps prevent configuration errors and ensures that only valid values are passed to resources.
+- **Usage**: Use the `validation` block within a variable declaration to define validation rules.
+
+```hcl
+variable "port" {
+  description = "The port on which the application runs"
+  type        = number
+
+  validation {
+    condition     = var.port >= 1 && var.port <= 65535
+    error_message = "The port number must be between 1 and 65535."
+  }
+}
+```
 
 ### Complex Types
 
@@ -430,6 +505,15 @@ Examples of Terraform built-in functions:
   - Workspaces can be modeled against branches in version control systems like Git.
 - **Collaboration**: Workspaces facilitate resource sharing and team collaboration.
 - **Access**: The current workspace name is available via the `${terraform.workspace}` variable.
+
+| **Command**                          | **Description**                                                                                                             |
+| ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------- |
+| `terraform workspace list`           | Lists all the workspaces in the current working directory. Displays an asterisk (\*) next to the current workspace.         |
+| `terraform workspace show`           | Shows the name of the current workspace.                                                                                    |
+| `terraform workspace new <name>`     | Creates a new workspace with the specified name. This also switches to the newly created workspace.                         |
+| `terraform workspace select <name>`  | Switches to the specified workspace. If the workspace does not exist, it will return an error.                              |
+| `terraform workspace delete <name>`  | Deletes the specified workspace. The workspace must not be currently selected, and it must be empty (no managed resources). |
+| `terraform workspace select default` | Switches back to the default workspace.                                                                                     |
 
 ## Debugging Terraform
 
