@@ -460,6 +460,9 @@ Examples of Terraform built-in functions:
   - Visualizing resource dependencies and relationships.
   - Identifying potential circular dependencies or complex infrastructure layouts.
 
+Example output:
+![graph](./assets/graph.png)
+
 ### Terraform output
 
 - **Purpose**: Retrieves the values of output variables from the Terraform state.
@@ -540,7 +543,7 @@ Examples of Terraform built-in functions:
 - Restricting instance types to only allow `t3.micro`.
 - Ensuring security groups do not permit traffic on port 22.
 
-### Terraform Vault
+### HasiCorp Vault
 
 - **Definition**: A secrets management tool that dynamically provisions and rotates credentials.
 - **Security**: Encrypts sensitive data both in transit and at rest, providing fine-grained access control using ACLs.
@@ -564,6 +567,8 @@ Examples of Terraform built-in functions:
   - Stores old versions of state files by default.
   - Maintains a record of all execution activities.
   - All Terraform commands are executed on managed Terraform Cloud VMs.
+
+![Terraform Cloud Folder](./assets/tf-cloud.png)
 
 ### Terraform OSS Workspaces
 
