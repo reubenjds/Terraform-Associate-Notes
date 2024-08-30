@@ -28,21 +28,22 @@ This repository contains notes for the HashiCorp Certified: Terraform Associate 
 11. [Terraform Built-in Functions](#terraform-built-in-functions)
 12. [Type Constraints - Terraform Variables](#type-constraints-terraform-variables)
 13. [Dynamic Blocks](#dynamic-blocks)
-14. [Terraform CLI Utilities](#terraform-cli-utilities)
+14. [Additional Terraform Commands](#additional-terraform-commands)
+15. [Terraform CLI Utilities](#terraform-cli-utilities)
     1. [Terraform fmt](#terraform-fmt)
-    2. [Terraform taint](#terraform-taint)
+    2. [Terraform apply -replace](#terraform-apply--replace)
     3. [Terraform import](#terraform-import)
-15. [Terraform Configuration Block](#terraform-configuration-block)
-16. [Terraform Workspaces](#terraform-workspaces)
-17. [Debugging Terraform](#debugging-terraform)
-18. [Terraform Cloud and Enterprise Offerings](#terraform-cloud-and-enterprise-offerings)
+16. [Terraform Configuration Block](#terraform-configuration-block)
+17. [Terraform Workspaces](#terraform-workspaces)
+18. [Debugging Terraform](#debugging-terraform)
+19. [Terraform Cloud and Enterprise Offerings](#terraform-cloud-and-enterprise-offerings)
     1. [Hashicorp Sentinel](#hashicorp-sentinel)
     2. [Terraform Vault](#terraform-vault)
     3. [Terraform Registry](#terraform-registry)
     4. [Terraform Cloud Workspaces](#terraform-cloud-workspaces)
     5. [Terraform OSS Workspaces](#terraform-oss-workspaces)
     6. [Benefits of Terraform Cloud](#benefits-of-terraform-cloud)
-19. [Benefits of Terraform Cloud](#benefits-of-terraform-cloud)
+20. [Benefits of Terraform Cloud](#benefits-of-terraform-cloud)
 
 ---
 
@@ -188,6 +189,45 @@ These commands are used to manipulate and interact with the Terraform state file
 - Terraform cannot track changes made by provisioners, as they can take independent actions.
 - Provisioners are ideal for invoking actions not covered by Terraform's declarative model.
 - A non-zero return code from a provisioner marks the resource as tainted.
+
+### Remote Execution Provisioners
+
+- Remote execution provisioners are used in Terraform to run scripts or commands on the remote machine where the infrastructure is being provisioned. These provisioners allow you to perform actions such as installing software, configuring services, or running custom scripts on the remote machine.
+- To use a remote execution provisioner, you specify the connection details for the remote machine, such as the SSH username, private key, and host address. The provisioner will establish an SSH connection to the remote machine and execute the specified commands or scripts.
+- Remote execution provisioners are useful when you need to perform actions that cannot be achieved declaratively in Terraform, such as running configuration management tools like Ansible or executing custom scripts on the remote machine.
+
+Example:
+
+````hcl
+resource "aws_instance" "example" {
+  # resource configuration
+  provisioner "remote-exec" {
+    inline = [
+      "sudo apt-get update",
+      "sudo apt-get install -y nginx"
+    ]
+  }
+}
+
+```markdown
+````
+
+### Local Exec Provisioners
+
+- Local exec provisioners are used in configuration management tools like Terraform and Ansible to execute commands on the local machine during the provisioning process. They allow you to run scripts or commands on the machine where the provisioning is being performed.
+- Local exec provisioners are typically used for tasks such as initializing the environment, installing dependencies, or performing local setup before deploying resources.
+- To use a local exec provisioner, you specify the command or script that needs to be executed on the local machine. The provisioner will run the specified command or script in the context of the machine where the provisioning is being performed.
+
+Example:
+
+```hcl
+resource "aws_instance" "example" {
+  # resource configuration
+  provisioner "local-exec" {
+    command = "echo 'Hello, World!'"
+  }
+}
+```
 
 ## Terraform Modules
 
