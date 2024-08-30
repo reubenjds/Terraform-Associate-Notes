@@ -18,6 +18,7 @@ This repository contains notes for the HashiCorp Certified: Terraform Associate 
 6. [Terraform State](#terraform-state)
    1. [Local State Storage](#local-state-storage)
    2. [Remote State Storage](#remote-state-storage)
+   3. [Terraform State Commands](#terraform-state-commands)
 7. [Variables](#variables)
    1. [Base Types](#base-types)
    2. [Complex Types](#complex-types)
@@ -131,6 +132,21 @@ This repository contains notes for the HashiCorp Certified: Terraform Associate 
 - Enables state locking to prevent coinciding parallel executions.
 - Supports sharing "output" values with other Terraform configurations or code.
 
+### Terraform State Commands
+
+These commands are used to manipulate and interact with the Terraform state file directly.
+
+| **Command**                        | **Description**                                                    | **Use Case**                                                   |
+| ---------------------------------- | ------------------------------------------------------------------ | -------------------------------------------------------------- |
+| `terraform state show`             | Displays detailed state information for a given resource           | Useful for inspecting current state of a specific resource     |
+| `terraform state rm`               | Removes a specified resource from the state file                   | Use when a resource needs to be unmanaged by Terraform         |
+| `terraform state list`             | Lists all resources currently tracked in the state                 | Helpful for viewing all managed resources                      |
+| `terraform state mv`               | Moves a resource from one state to another                         | Used for refactoring or re-structuring Terraform configuration |
+| `terraform state pull`             | Retrieves the state file from its remote storage location          | Use to download and view the current remote state              |
+| `terraform state push`             | Uploads a local state file to the configured remote state location | Used to manually synchronize the local state with remote state |
+| `terraform state replace-provider` | Replaces provider references in the state file                     | Useful when changing providers or their versions               |
+| `terraform state show`             | Shows attributes of a single resource in the state                 | Inspect detailed information about a specific resource         |
+
 ## Variables
 
 ### Base Types
@@ -146,6 +162,17 @@ This repository contains notes for the HashiCorp Certified: Terraform Associate 
 - **Map**: A collection of key-value pairs.
 - **Object**: A complex structure of named attributes.
 - **Tuple**: A sequence of values, which can be of different types.
+
+| **Type** | **Description**                         | **Example**               |
+| -------- | --------------------------------------- | ------------------------- |
+| String   | Represents text                         | `"example string"`        |
+| Number   | Represents numerical values             | `42`                      |
+| Bool     | Represents true or false values         | `true`                    |
+| List     | An ordered sequence of values           | `["item1", "item2"]`      |
+| Map      | A collection of key-value pairs         | `{"key1" = "value1"}`     |
+| Set      | A collection of unique values           | `set("item1", "item2")`   |
+| Object   | A collection of named attributes        | `object({name=string})`   |
+| Tuple    | A sequence of values of different types | `tuple([string, number])` |
 
 ## Outputs
 
@@ -255,14 +282,16 @@ This repository contains notes for the HashiCorp Certified: Terraform Associate 
   - After upgrading Terraform or its modules.
   - Any time code changes are made.
 
-### Terraform taint
+### Terraform apply -replace
 
-- **Purpose**: Taints a resource, forcing it to be destroyed and recreated. This modifies the state file, leading to a recreation workflow during the next `apply`.
-- **CLI Command**: `terraform taint RESOURCE_ADDRESS`
+> previously known as `taint` and `untaint` commands before Terraform v0.12
+
+- **Purpose**: Replaces a resource by first destroying it and then creating a new one. This is useful when a resource needs to be recreated due to issues or changes.
+- **CLI Command**: `terraform apply -replace="RESOURCE_ADDRESS"`
 - **Scenarios**:
-  - To ensure provisioners run again.
-  - To replace misbehaving resources.
-  - To mimic side effects of recreation not modeled by resource attributes.
+  - To force the recreation of a misbehaving or corrupted resource.
+  - To ensure provisioners or other lifecycle operations run again.
+  - To simulate the side effects of recreation not triggered by attribute changes.
 
 ### Terraform import
 
@@ -272,6 +301,54 @@ This repository contains notes for the HashiCorp Certified: Terraform Associate 
   - When needing to manage existing resources not originally created by Terraform.
   - When creation of new resources is not permitted.
   - When not in control of the initial infrastructure creation process.
+
+### Terraform validate
+
+- **Purpose**: Validates the syntax and internal consistency of Terraform configuration files.
+- **CLI Command**: `terraform validate`
+- **Scenarios**:
+  - Checking for syntax errors before running `terraform plan` or `terraform apply`.
+  - Validating configurations after making changes or updates.
+
+### Terraform show
+
+- **Purpose**: Provides a human-readable output of the Terraform state or plan file.
+- **CLI Command**: `terraform show`
+- **Scenarios**:
+  - Reviewing the current state of resources in detail.
+  - Examining the execution plan to understand changes before applying them.
+
+### Terraform graph
+
+- **Purpose**: Creates a visual representation of Terraform resources and their dependencies.
+- **CLI Command**: `terraform graph | dot -Tpng > graph.png`
+- **Scenarios**:
+  - Visualizing resource dependencies and relationships.
+  - Identifying potential circular dependencies or complex infrastructure layouts.
+
+### Terraform output
+
+- **Purpose**: Retrieves the values of output variables from the Terraform state.
+- **CLI Command**: `terraform output [NAME]`
+- **Scenarios**:
+  - Accessing the values of output variables after applying changes.
+  - Using output values for further automation or integration with other systems.
+
+### Terraform refresh
+
+- **Purpose**: Updates the Terraform state to match the real-world resources without modifying any infrastructure.
+- **CLI Command**: `terraform refresh`
+- **Scenarios**:
+  - Refreshing the state file to reflect changes made outside of Terraform.
+  - Verifying that the state file is in sync with the actual infrastructure.
+
+### Terraform console
+
+- **Purpose**: Provides an interactive console for evaluating expressions and exploring Terraform functions.
+- **CLI Command**: `terraform console`
+- **Scenarios**:
+  - Testing expressions and interpolations before using them in configurations.
+  - Exploring variable values and outputs interactively.
 
 ## Terraform Configuration Block
 
@@ -359,3 +436,16 @@ This repository contains notes for the HashiCorp Certified: Terraform Associate 
   - Remote state management and CLI integration.
   - Private Terraform module registry.
   - Features like cost estimation and Sentinel integration.
+
+| Feature                       | HashiCorp Cloud Platform (HCP)                                      | Local State                                                       | External State                                                                       |
+| ----------------------------- | ------------------------------------------------------------------- | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| **Storage Location**          | Managed by HashiCorp in the cloud                                   | Stored on local disk of the user's machine                        | Stored in remote services (e.g., AWS S3, Azure Blob Storage)                         |
+| **Access Control**            | Built-in authentication and RBAC (Role-Based Access Control)        | Access controlled by file system permissions                      | Access control managed by the external service (e.g., IAM policies for S3)           |
+| **Collaboration**             | Native support for team collaboration with shared state and locking | Limited, as only the local user can modify the state              | Supports collaboration through state locking and shared access via remote storage    |
+| **State Locking**             | Automatic state locking to prevent conflicts                        | No built-in locking; risk of state corruption with concurrent use | Supports state locking using a service like DynamoDB (with S3 backend)               |
+| **Security**                  | Secure storage with encryption and automated backups                | Relies on local machine's security; encryption is manual          | Security features depend on the remote service (e.g., server-side encryption for S3) |
+| **Backup and Recovery**       | Automatic state versioning and backups                              | Manual backups required                                           | Automatic backups and versioning can be configured (e.g., S3 versioning)             |
+| **Scalability**               | Highly scalable, managed by HashiCorp                               | Limited by local machine's storage capacity and performance       | Scalable based on the chosen external storage solution                               |
+| **Ease of Setup**             | Simple setup with Terraform Cloud integration                       | Very easy, no setup needed for local use                          | Requires configuration of backend and authentication                                 |
+| **Cost**                      | Subscription-based pricing model for HCP                            | No cost beyond local storage                                      | Cost depends on the external storage service (e.g., AWS S3 storage fees)             |
+| **Compliance and Governance** | Built-in compliance tools like Sentinel for policy enforcement      | No built-in compliance tools                                      | Compliance depends on the external service; may require custom solutions             |
