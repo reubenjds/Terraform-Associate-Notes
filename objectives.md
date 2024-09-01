@@ -21,7 +21,7 @@
    - [5c. Describe variable scope within modules/child modules](#5c-describe-variable-scope-within-moduleschild-modules)
    - [5d. Set module version](#5d-set-module-version)
 6. [Use the core Terraform workflow](#6-use-the-core-terraform-workflow)
-   - [6a. Describe Terraform workflow (Write -> Plan -> Create)](#6a-describe-terraform-workflow--write---plan---create-)
+   - [6a. Describe Terraform workflow (Write -> Plan -> Create)](#6a-describe-terraform-workflow-write---plan---create)
    - [6b. Initialize a Terraform working directory (terraform init)](#6b-initialize-a-terraform-working-directory-terraform-init)
    - [6c. Validate a Terraform configuration (terraform validate)](#6c-validate-a-terraform-configuration-terraform-validate)
    - [6d. Generate and review an execution plan for Terraform (terraform plan)](#6d-generate-and-review-an-execution-plan-for-terraform-terraform-plan)
@@ -165,14 +165,12 @@
 
 - **Versioning**: Specifying a module version ensures compatibility and stability. Example:
 
-  ````hcl
+  ```hcl
   module "network" {
     source  = "terraform-aws-modules/vpc/aws"
     version = "2.0.0"
   }
-
-  ```markdown
-  ````
+  ```
 
 ## 6. Use the core Terraform workflow
 
