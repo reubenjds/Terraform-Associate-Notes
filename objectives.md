@@ -1,59 +1,12 @@
-# HashiCorp Certified: Terraform Associate (003) Notes
-
-1. [Understand Infrastructure as Code (IaC) Concepts](#1-understand-infrastructure-as-code-iac-concepts)
-   - [1a. Explain what IaC is](#1a-explain-what-iac-is)
-   - [1b. Describe advantages of IaC patterns](#1b-describe-advantages-of-iac-patterns)
-2. [Understand the purpose of Terraform (vs other IaC)](#2-understand-the-purpose-of-terraform-vs-other-iac)
-   - [2a. Explain multi-cloud and provider-agnostic benefits](#2a-explain-multi-cloud-and-provider-agnostic-benefits)
-   - [2b. Explain the benefits of state](#2b-explain-the-benefits-of-state)
-3. [Understand Terraform basics](#3-understand-terraform-basics)
-   - [3a. Install and version Terraform providers](#3a-install-and-version-terraform-providers)
-   - [3b. Describe plugin-based architecture](#3b-describe-plugin-based-architecture)
-   - [3c. Write Terraform configuration using multiple providers](#3c-write-terraform-configuration-using-multiple-providers)
-   - [3d. Describe how Terraform finds and fetches providers](#3d-describe-how-terraform-finds-and-fetches-providers)
-4. [Use Terraform outside the core workflow](#4-use-terraform-outside-the-core-workflow)
-   - [4a. Describe when to use terraform import to import existing infrastructure into your Terraform state](#4a-describe-when-to-use-terraform-import-to-import-existing-infrastructure-into-your-terraform-state)
-   - [4b. Use terraform state to view Terraform state](#4b-use-terraform-state-to-view-terraform-state)
-   - [4c. Describe when to enable verbose logging and what the outcome/value is](#4c-describe-when-to-enable-verbose-logging-and-what-the-outcomevalue-is)
-5. [Interact with Terraform modules](#5-interact-with-terraform-modules)
-   - [5a. Contrast and use different module source options including the public Terraform Module Registry](#5a-contrast-and-use-different-module-source-options-including-the-public-terraform-module-registry)
-   - [5b. Interact with module inputs and outputs](#5b-interact-with-module-inputs-and-outputs)
-   - [5c. Describe variable scope within modules/child modules](#5c-describe-variable-scope-within-moduleschild-modules)
-   - [5d. Set module version](#5d-set-module-version)
-6. [Use the core Terraform workflow](#6-use-the-core-terraform-workflow)
-   - [6a. Describe Terraform workflow (Write -> Plan -> Create)](#6a-describe-terraform-workflow-write---plan---create)
-   - [6b. Initialize a Terraform working directory (terraform init)](#6b-initialize-a-terraform-working-directory-terraform-init)
-   - [6c. Validate a Terraform configuration (terraform validate)](#6c-validate-a-terraform-configuration-terraform-validate)
-   - [6d. Generate and review an execution plan for Terraform (terraform plan)](#6d-generate-and-review-an-execution-plan-for-terraform-terraform-plan)
-   - [6e. Execute changes to infrastructure with Terraform (terraform apply)](#6e-execute-changes-to-infrastructure-with-terraform-terraform-apply)
-   - [6f. Destroy Terraform managed infrastructure (terraform destroy)](#6f-destroy-terraform-managed-infrastructure-terraform-destroy)
-   - [6g. Apply formatting and style adjustments to a configuration (terraform fmt)](#6g-apply-formatting-and-style-adjustments-to-a-configuration-terraform-fmt)
-7. [Implement and maintain state](#7-implement-and-maintain-state)
-   - [7a. Describe default local backend](#7a-describe-default-local-backend)
-   - [7b. Describe state locking](#7b-describe-state-locking)
-   - [7c. Handle backend and cloud integration authentication methods](#7c-handle-backend-and-cloud-integration-authentication-methods)
-   - [7d. Differentiate remote state back end options](#7d-differentiate-remote-state-back-end-options)
-   - [7e. Manage resource drift and Terraform state](#7e-manage-resource-drift-and-terraform-state)
-   - [7f. Describe backend block and cloud integration in configuration](#7f-describe-backend-block-and-cloud-integration-in-configuration)
-   - [7g. Understand secret management in state files](#7g-understand-secret-management-in-state-files)
-8. [Read, generate, and modify configuration](#8-read-generate-and-modify-configuration)
-   - [8a. Demonstrate use of variables and outputs](#8a-demonstrate-use-of-variables-and-outputs)
-   - [8b. Describe secure secret injection best practice](#8b-describe-secure-secret-injection-best-practice)
-   - [8c. Understand the use of collection and structural types](#8c-understand-the-use-of-collection-and-structural-types)
-   - [8d. Create and differentiate resource and data configuration](#8d-create-and-differentiate-resource-and-data-configuration)
-   - [8e. Use resource addressing and resource parameters to connect resources together](#8e-use-resource-addressing-and-resource-parameters-to-connect-resources-together)
-   - [8f. Use HCL and Terraform functions to write configuration](#8f-use-hcl-and-terraform-functions-to-write-configuration)
-   - [8g. Describe built-in dependency management (order of execution based)](#8g-describe-built-in-dependency-management-order-of-execution-based)
-9. [Understand HCP Terraform capabilities](#9-understand-hcp-terraform-capabilities)
-   - [9a. Explain how HCP Terraform helps to manage infrastructure](#9a-explain-how-hcp-terraform-helps-to-manage-infrastructure)
-   - [9b. Describe how HCP Terraform enables collaboration and governance](#9b-describe-how-hcp-terraform-enables-collaboration-and-governance)
+# HashiCorp Certified: Terraform Associate (004) Notes
 
 ## General Information
 
 - **Exam Duration:** 1 hour
 - **Question Count:** 50-60 questions
-- **Tested on:** Terraform 0.12 and higher
+- **Tested on:** Terraform 1.12
 - **Certification Expiration:** 2 years
+- **Cost:** $70.50 USD
 
 ## Question Types
 
@@ -64,289 +17,57 @@
 
 ## Exam Resources
 
-- [Terraform Exam Sample Questions](https://developer.hashicorp.com/terraform/tutorials/certification-003/associate-questions)
-- [Terraform Associate Practice Questions](https://www.udemy.com/course/terraform-associate-practice-exam/?couponCode=SKILLS4SALEB/)
+- [Terraform Exam Sample Questions](https://developer.hashicorp.com/terraform/tutorials/certification-004/associate-questions-004)
+- [Terraform Associate Practice Questions](https://www.udemy.com/course/terraform-associate-004-practice-exams/)
+
+## Exam Content List
+
+
+| ID    | Objective                                                                                      | Documentation                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | Tutorials                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| :---- | :--------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **1** | **Infrastructure as Code (IaC) with Terraform**                                                |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| 1a    | Explain what IaC is                                                                            | [What is Terraform?](https://developer.hashicorp.com/terraform/intro)  [Infrastructure as Code in a Private or Public Cloud](https://developer.hashicorp.com/terraform/intro/use-cases)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | [Introduction to Infrastructure as Code](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/infrastructure-as-code)                                                                                                                                                                                                                                                                                                                                                                                                          |
+| 1b    | Describe the advantages of IaC patterns                                                        | [Why Terraform](https://developer.hashicorp.com/terraform/intro/vs-other-tools)  [Infrastructure as Code in a Private or Public Cloud](https://developer.hashicorp.com/terraform/intro/use-cases)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | [Introduction to Infrastructure as Code](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/infrastructure-as-code)                                                                                                                                                                                                                                                                                                                                                                                                          |
+| 1c    | Explain how Terraform manages multi-cloud, hybrid cloud, and service-agnostic workflows        | [Multi-Cloud Deployment](https://developer.hashicorp.com/terraform/intro/use-cases#multi-cloud-deployment)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | [Introduction to Infrastructure as Code](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/infrastructure-as-code)                                                                                                                                                                                                                                                                                                                                                                                                          |
+| **2** | **Terraform fundamentals**                                                                     |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| 2a    | Install and version Terraform providers                                                        | [Providers](https://developer.hashicorp.com/terraform/language/providers)  [Specifying Provider Requirements](https://developer.hashicorp.com/terraform/language/providers/requirements)  [Dependency Lock File](https://developer.hashicorp.com/terraform/language/files/dependency-lock)  [Provider Block Reference](https://developer.hashicorp.com/terraform/language/providers/configuration)                                                                                                                                                                                                                                                                                         | [Lock and Upgrade Provider Versions](https://developer.hashicorp.com/terraform/tutorials/configuration-language/provider-versioning)  [Initialize Terraform Configuration](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/aws-build)                                                                                                                                                                                                                                                                                     |
+| 2b    | Describe how Terraform uses providers                                                          | [Provider Block Reference](https://developer.hashicorp.com/terraform/language/providers/configuration)  [Provider Overview](https://developer.hashicorp.com/terraform/language/providers)  [Provider Requirements](https://developer.hashicorp.com/terraform/language/providers/requirements)  [How Terraform Works with Plugins](https://developer.hashicorp.com/terraform/language/providers#how-terraform-works-with-plugins)                                                                                                                                                                                                                                                           | [Initialize Terraform Configuration](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/aws-build)                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| 2c    | Write Terraform configuration using multiple providers                                         | [Provider Block Reference](https://developer.hashicorp.com/terraform/language/providers/configuration)  [Provider Requirements](https://developer.hashicorp.com/terraform/language/providers/requirements)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | [Define Infrastructure with Terraform Resources](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/aws-build)                                                                                                                                                                                                                                                                                                                                                                                                               |
+| 2d    | Explain how Terraform uses and manages state                                                   | [Purpose of Terraform State](https://developer.hashicorp.com/terraform/language/state/purpose)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | [Manage Resources in Terraform State](https://developer.hashicorp.com/terraform/tutorials/cli/state-manage)                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| **3** | **Core Terraform workflow**                                                                    |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| 3a    | Describe the Terraform workflow                                                                | [Core Terraform Workflow](https://developer.hashicorp.com/terraform/intro/core-workflow)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | [Create Infrastructure](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/aws-build)  [Create a Terraform Plan](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/aws-plan)  [Apply Terraform Configuration](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/aws-apply)  [Initialize Terraform Configuration](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/aws-build)                                                                                          |
+| 3b    | Initialize a Terraform working directory                                                       | [Dependency Lock File](https://developer.hashicorp.com/terraform/language/files/dependency-lock)  [Command: init](https://developer.hashicorp.com/terraform/cli/commands/init)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | [Initialize Terraform Configuration](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/aws-build)                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| 3c    | Validate a Terraform configuration                                                             | [Command: validate](https://developer.hashicorp.com/terraform/cli/commands/validate)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | [Validate your Configuration](https://developer.hashicorp.com/terraform/tutorials/configuration-language/validate-configuration)                                                                                                                                                                                                                                                                                                                                                                                                              |
+| 3d    | Generate and review an execution plan for Terraform                                            | [Resource Graph](https://developer.hashicorp.com/terraform/internals/graph)  [Command: plan](https://developer.hashicorp.com/terraform/cli/commands/plan)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | [Create a Terraform Plan](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/aws-plan)                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| 3e    | Apply changes to infrastructure with Terraform                                                 | [Command: apply](https://developer.hashicorp.com/terraform/cli/commands/apply)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | [Apply Terraform Configuration](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/aws-apply)                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| 3f    | Destroy Terraform-managed infrastructure                                                       | [Command: destroy](https://developer.hashicorp.com/terraform/cli/commands/destroy)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | [Destroy Infrastructure](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/aws-destroy)                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| 3g    | Apply formatting and style adjustments to a configuration                                      | [Command: fmt](https://developer.hashicorp.com/terraform/cli/commands/fmt)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | [Format the Configuration](https://developer.hashicorp.com/terraform/tutorials/configuration-language/fmt)                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| **4** | **Terraform configuration**                                                                    |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| 4a    | Use and differentiate resource and data blocks                                                 | [Resources](https://developer.hashicorp.com/terraform/language/resources)  [Data Sources](https://developer.hashicorp.com/terraform/language/data-sources)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | [Query Data Sources](https://developer.hashicorp.com/terraform/tutorials/configuration-language/data-sources)                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| 4b    | Refer to resource attributes and create cross-resource references                              | [Resource Addressing](https://developer.hashicorp.com/terraform/cli/state/resource-addressing)  [References to Named Values](https://developer.hashicorp.com/terraform/language/expressions/references)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | [Create Resource Dependencies](https://developer.hashicorp.com/terraform/tutorials/configuration-language/resource-dependencies)                                                                                                                                                                                                                                                                                                                                                                                                              |
+| 4c    | Use variables and outputs                                                                      | [Manage values in modules](https://developer.hashicorp.com/terraform/language/values)  [Output Block Reference](https://developer.hashicorp.com/terraform/language/values/outputs)  [Variable Block Reference](https://developer.hashicorp.com/terraform/language/values/variables)                                                                                                                                                                                                                                                                                                                                                                                                        | [Customize Terraform Configuration with Variables](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/aws-variables)  [Output Data from Terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/aws-outputs)                                                                                                                                                                                                                                                                                          |
+| 4d    | Understand and use complex types                                                               | [Complex Types](https://developer.hashicorp.com/terraform/language/expressions/type-constraints#complex-types)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | [Customize Terraform Configuration with Variables](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/aws-variables)                                                                                                                                                                                                                                                                                                                                                                                                         |
+| 4e    | Write dynamic configuration using expressions and functions                                    | [Built-in Functions](https://developer.hashicorp.com/terraform/language/functions)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | [Create Dynamic Expressions](https://developer.hashicorp.com/terraform/tutorials/configuration-language/expressions)  [Perform Dynamic Operations with Functions](https://developer.hashicorp.com/terraform/tutorials/configuration-language/functions)                                                                                                                                                                                                                                                                                       |
+| 4f    | Define resource dependencies in configuration                                                  | [Resource Graph](https://developer.hashicorp.com/terraform/internals/graph)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | [Create Resource Dependencies](https://developer.hashicorp.com/terraform/tutorials/configuration-language/resource-dependencies)                                                                                                                                                                                                                                                                                                                                                                                                              |
+| 4g    | Validate configuration using custom conditions                                                 | [Validate Your Configuration](https://developer.hashicorp.com/terraform/language/expressions/custom-conditions)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | [Use Checks to Validate Infrastructure](https://developer.hashicorp.com/terraform/tutorials/configuration-language/checks)  [Validate Modules with Custom Conditions](https://developer.hashicorp.com/terraform/tutorials/configuration-language/custom-conditions)                                                                                                                                                                                                                                                                           |
+| 4h    | Understand best practices for managing sensitive data, including secrets management with Vault | [Manage Sensitive Data](https://developer.hashicorp.com/terraform/language/values/variables#sensitive-input-variables)  [Vault Provider for Terraform](https://registry.terraform.io/providers/hashicorp/vault/latest/docs)                                                                                                                                                                                                                                                                                                                                                                                                                                                                | [Upgrade RDS Major Version](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/aws-variables)  [Protect Sensitive Input Variables](https://developer.hashicorp.com/terraform/tutorials/configuration-language/sensitive-variables)  [Inject Secrets into Terraform Using the Vault Provider](https://developer.hashicorp.com/terraform/tutorials/secrets-management/vault-provider)                                                                                                                                          |
+| **5** | **Terraform modules**                                                                          |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| 5a    | Explain how Terraform sources modules                                                          | [Find and Use Modules](https://developer.hashicorp.com/terraform/language/modules/sources)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | [Modules Overview](https://developer.hashicorp.com/terraform/tutorials/modules/module)  [Use Registry Modules in Configuration](https://developer.hashicorp.com/terraform/tutorials/modules/module-use)                                                                                                                                                                                                                                                                                                                                       |
+| 5b    | Describe variable scope within modules                                                         | [Module Block Reference](https://developer.hashicorp.com/terraform/language/modules/syntax)  [Manage values in modules](https://developer.hashicorp.com/terraform/language/values)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | [Build and Use a Local Module](https://developer.hashicorp.com/terraform/tutorials/modules/module-create)                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| 5c    | Use modules in configuration                                                                   | [Module Composition](https://developer.hashicorp.com/terraform/language/modules/develop/composition)  [Output Block Reference](https://developer.hashicorp.com/terraform/language/values/outputs)  [Manage values in modules](https://developer.hashicorp.com/terraform/language/values)                                                                                                                                                                                                                                                                                                                                                                                                   | [Use Registry Modules in Configuration](https://developer.hashicorp.com/terraform/tutorials/modules/module-use)                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| 5d    | Manage module versions                                                                         | [Module Block Reference: Version Argument](https://developer.hashicorp.com/terraform/language/modules/syntax#version)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | [Use Registry Modules in Configuration](https://developer.hashicorp.com/terraform/tutorials/modules/module-use)                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| **6** | **Terraform state management**                                                                 |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| 6a    | Describe the local backend                                                                     | [Backend Block Configuration](https://developer.hashicorp.com/terraform/language/settings/backends/configuration)  [Backend Type: local](https://developer.hashicorp.com/terraform/language/settings/backends/local)                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | [Initialize Terraform Configuration](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/aws-build)                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| 6b    | Describe state locking                                                                         | [State Storage and Locking](https://developer.hashicorp.com/terraform/language/state/locking)  [State Locking](https://developer.hashicorp.com/terraform/language/state/locking)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | —                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| 6c    | Configure remote state using the backend block                                                 | [State Storage and Locking](https://developer.hashicorp.com/terraform/language/state/locking)  [Backend Block Configuration](https://developer.hashicorp.com/terraform/language/settings/backends/configuration)                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | —                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| 6d    | Manage resource drift and Terraform state                                                      | [Terraform State](https://developer.hashicorp.com/terraform/language/state)  [Refactor Terraform State](https://developer.hashicorp.com/terraform/language/state/move)  [Refresh-Only Mode](https://developer.hashicorp.com/terraform/cli/commands/plan#refresh-only-mode)  [Removed Block Reference](https://developer.hashicorp.com/terraform/language/resources/removed)  [Moved Block Reference](https://developer.hashicorp.com/terraform/language/modules/develop/moved)                                                                                                                                                                                                             | [Manage Resource Drift](https://developer.hashicorp.com/terraform/tutorials/cli/drift-detection)  [Use Refresh-Only Mode](https://developer.hashicorp.com/terraform/tutorials/cli/refresh)                                                                                                                                                                                                                                                                                                                                                    |
+| **7** | **Maintain infrastructure with Terraform**                                                     |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| 7a    | Import existing infrastructure into your Terraform workspace                                   | [Command: import](https://developer.hashicorp.com/terraform/cli/commands/import)  [Import Existing Resources](https://developer.hashicorp.com/terraform/language/import)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | [Import Terraform Configuration](https://developer.hashicorp.com/terraform/tutorials/cli/resource-import)                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| 7b    | Use the CLI to inspect state                                                                   | [State Command](https://developer.hashicorp.com/terraform/cli/commands/state)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | [Manage Resources in State](https://developer.hashicorp.com/terraform/tutorials/cli/state-manage)                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| 7c    | Describe when and how to use verbose logging                                                   | [Debugging Terraform](https://developer.hashicorp.com/terraform/internals/debugging)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | [Enable Terraform Logging](https://developer.hashicorp.com/terraform/tutorials/cli/troubleshooting)                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| **8** | **HCP Terraform**                                                                              |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| 8a    | Use HCP Terraform to create infrastructure                                                     | [Workspaces](https://developer.hashicorp.com/terraform/cloud-docs/workspaces)  [HCP Terraform Workflow](https://developer.hashicorp.com/terraform/cloud-docs/run)  [HCP Terraform Overview](https://developer.hashicorp.com/terraform/cloud-docs)  [Remote Operations](https://developer.hashicorp.com/terraform/cloud-docs/run/remote-operations)                                                                                                                                                                                                                                                                                                                                         | [HCP Terraform Get Started Collection](https://developer.hashicorp.com/terraform/tutorials/cloud-get-started)                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| 8b    | Describe HCP Terraform collaboration and governance features                                   | [Explorer](https://developer.hashicorp.com/terraform/cloud-docs/explorer)  [HCP Private Registry Overview](https://developer.hashicorp.com/terraform/cloud-docs/registry)  [Change Requests Overview](https://developer.hashicorp.com/terraform/cloud-docs/vcs/change-requests)  [HCP Terraform Policy Enforcement](https://developer.hashicorp.com/terraform/cloud-docs/policy-enforcement)  [Projects Overview](https://developer.hashicorp.com/terraform/cloud-docs/workspaces/projects)  [Health](https://developer.hashicorp.com/terraform/cloud-docs/workspaces/health)  [HCP Terraform Teams](https://developer.hashicorp.com/terraform/cloud-docs/users-teams-organizations/teams) | [Authenticate Providers with Dynamic Credentials](https://developer.hashicorp.com/terraform/tutorials/cloud/dynamic-credentials)  [Drift Detection](https://developer.hashicorp.com/terraform/tutorials/cloud/drift-detection)  [Variable Sets](https://developer.hashicorp.com/terraform/tutorials/cloud/variable-sets)  [Detect Drift and Enforce Policies](https://developer.hashicorp.com/terraform/tutorials/cloud/drift-detection-policy)  [Enforce OPA Policies](https://developer.hashicorp.com/terraform/tutorials/cloud/opa-policy) |
+| 8c    | Describe how to organize and use HCP Terraform workspaces and projects                         | [Run Triggers](https://developer.hashicorp.com/terraform/cloud-docs/workspaces/run-triggers)  [Variable Sets](https://developer.hashicorp.com/terraform/cloud-docs/workspaces/variables/variable-sets)  [Projects Overview](https://developer.hashicorp.com/terraform/cloud-docs/workspaces/projects)                                                                                                                                                                                                                                                                                                                                                                                      | [Connect Workspaces with Run Triggers](https://developer.hashicorp.com/terraform/tutorials/cloud/run-triggers)  [Organize Workspaces with Projects](https://developer.hashicorp.com/terraform/tutorials/cloud/projects)                                                                                                                                                                                                                                                                                                                       |
+| 8d    | Configure and use HCP Terraform integration                                                    | [Use CLI with HCP Terraform](https://developer.hashicorp.com/terraform/cloud-docs/run/cli)  [Connect to HCP Terraform](https://developer.hashicorp.com/terraform/tutorials/cloud-get-started/cloud-login)  [Migrate Terraform State to HCP Terraform](https://developer.hashicorp.com/terraform/tutorials/cloud-get-started/cloud-migrate)  [Remote Operations](https://developer.hashicorp.com/terraform/cloud-docs/run/remote-operations)  [Command: login](https://developer.hashicorp.com/terraform/cli/commands/login)                                                                                                                                                                | [Migrate State to HCP Terraform](https://developer.hashicorp.com/terraform/tutorials/cloud-get-started/cloud-migrate)  [Upgrade Terraform Version in HCP Terraform](https://developer.hashicorp.com/terraform/tutorials/cloud/upgrade-terraform-version)  [Collaborate Using HCP Terraform](https://developer.hashicorp.com/terraform/tutorials/cloud-get-started/cloud-collaborate)                                                                                                                                                          |
 
-## 1. Understand Infrastructure as Code (IaC) Concepts
-
-### 1a. Explain what IaC is
-
-- **IaC (Infrastructure as Code)**: A practice where infrastructure is provisioned and managed using code instead of manual processes. It involves writing what you want to deploy in a human-readable form.
-- **DevOps Enablement**: IaC is tracked in version control, allowing for better visibility and collaboration across teams.
-- **Declarative Approach**: Infrastructure is defined declaratively via code, though it can also be procedural.
-
-### 1b. Describe advantages of IaC patterns
-
-- **Speed**: Automates deployment processes, saving time.
-- **Cost Reduction**: Minimizes manual intervention, reducing errors and excess resource usage.
-- **Reduced Risk**: Less human error means fewer security vulnerabilities.
-
-## 2. Understand the purpose of Terraform (vs other IaC)
-
-### 2a. Explain multi-cloud and provider-agnostic benefits
-
-- **Multi-Cloud Support**: Terraform works with a variety of cloud providers, both public and private, making it provider-agnostic.
-- **Unified Workflow**: Interacts with different cloud APIs using a consistent syntax.
-
-### 2b. Explain the benefits of state
-
-- **State Tracking**: Terraform maintains a state file (`terraform.tfstate`) to keep track of resource statuses. This is crucial for managing and updating resources effectively.
-- **Deployment Planning**: Helps calculate changes needed and creates execution plans.
-
-## 3. Understand Terraform basics
-
-### 3a. Install and version Terraform providers
-
-- **Installation**: Terraform can be installed by downloading the binary or using package managers. Providers are installed using `terraform init`.
-- **Versioning**: Providers should be pinned to specific versions to avoid breaking changes.
-
-### 3b. Describe plugin-based architecture
-
-- **Providers**: Terraform uses plugins, known as providers, to interact with cloud platforms and other services.
-- **Registry**: Providers are sourced from the Terraform providers registry or can be custom-built.
-
-### 3c. Write Terraform configuration using multiple providers
-
-- **Configuration**: Multiple providers can be declared in a Terraform configuration file to manage resources across different services.
-- **Example**:
-
-  ```hcl
-  provider "aws" {
-    region = "us-east-1"
-  }
-
-  provider "google" {
-    region = "us-central1"
-  }
-  ```
-
-### 3d. Describe how Terraform finds and fetches providers
-
-- **Initialization**: During `terraform init`, Terraform downloads and installs the required providers.
-- **Provider Source**: By default, Terraform looks in the Terraform providers registry.
-
-## 4. Use Terraform outside the core workflow
-
-### 4a. Describe when to use terraform import to import existing infrastructure into your Terraform state
-
-- **Use Case**: When managing existing resources not initially created by Terraform. The `terraform import` command brings these resources into Terraform's management.
-
-### 4b. Use terraform state to view Terraform state
-
-- **Viewing State**: Commands like `terraform state list` and `terraform state show` allow users to inspect the current state file and the resources it manages.
-
-### 4c. Describe when to enable verbose logging and what the outcome/value is
-
-- **Verbose Logging**: Enabled by setting the environment variable `TF_LOG` to `TRACE`, `DEBUG`, etc., to provide detailed execution logs. This is useful for debugging and understanding Terraform's behavior.
-
-## 5. Interact with Terraform modules
-
-### 5a. Contrast and use different module source options including the public Terraform Module Registry
-
-- **Sources**: Modules can be sourced from the public Terraform Module Registry, private registries, or local paths.
-- **Example**:
-  ```hcl
-  module "network" {
-    source = "terraform-aws-modules/vpc/aws"
-    version = "2.0"
-  }
-  ```
-
-### 5b. Interact with module inputs and outputs
-
-- **Inputs**: Parameters passed to the module, used within the module as variables.
-- **Outputs**: Values returned by the module to be used by the root module or other modules.
-
-### 5c. Describe variable scope within modules/child modules
-
-- **Scope**: Variables declared in the root module can be passed down to child modules. Variables are scoped to their respective modules unless explicitly passed.
-
-### 5d. Set module version
-
-- **Versioning**: Specifying a module version ensures compatibility and stability. Example:
-
-  ```hcl
-  module "network" {
-    source  = "terraform-aws-modules/vpc/aws"
-    version = "2.0.0"
-  }
-  ```
-
-## 6. Use the core Terraform workflow
-
-### 6a. Describe Terraform workflow (Write -> Plan -> Create)
-
-1. **Write**: Define infrastructure as code in `.tf` files.
-2. **Plan**: Run `terraform plan` to preview changes.
-3. **Apply**: Execute `terraform apply` to create/update infrastructure.
-
-### 6b. Initialize a Terraform working directory (terraform init)
-
-- Prepares the directory by downloading providers and modules.
-
-### 6c. Validate a Terraform configuration (terraform validate)
-
-- Checks the syntax and internal consistency of Terraform configuration files.
-
-### 6d. Generate and review an execution plan for Terraform (terraform plan)
-
-- Creates an execution plan showing what changes will be made.
-
-### 6e. Execute changes to infrastructure with Terraform (terraform apply)
-
-- Applies the changes as per the plan to the actual infrastructure.
-
-### 6f. Destroy Terraform managed infrastructure (terraform destroy)
-
-- Destroys all resources defined in the Terraform configuration.
-
-### 6g. Apply formatting and style adjustments to a configuration (terraform fmt)
-
-- Automatically formats Terraform configuration files to canonical style.
-
-## 7. Implement and maintain state
-
-### 7a. Describe default local backend
-
-- **Local Backend**: By default, Terraform stores the state file locally on disk.
-
-### 7b. Describe state locking
-
-- **State Locking**: Prevents simultaneous updates to the state file by locking it during operations.
-
-### 7c. Handle backend and cloud integration authentication methods
-
-- **Authentication**: Uses various methods like AWS credentials, GCP service accounts, etc., to authenticate with backends.
-
-### 7d. Differentiate remote state back end options
-
-- **Remote Backends**: Options include AWS S3, Google Cloud Storage, and others for storing state files remotely.
-
-### 7e. Manage resource drift and Terraform state
-
-- **Resource Drift**: Regular state refresh and `terraform plan` help detect and manage changes not made through Terraform.
-
-### 7f. Describe backend block and cloud integration in configuration
-
-- **Backend Block**: Defines where the state is stored, e.g., in an S3 bucket.
-
-  ```hcl
-  backend "s3" {
-    bucket = "my-tf-state"
-    key    = "path/to/my/key"
-    region = "us-east-1"
-  }
-  ```
-
-  ### 7g. Understand secret management in state files
-
-- **Secrets in State**: Sensitive data may be stored in state files, so securing state storage is critical. Use encryption and secure storage options to protect sensitive information.
-
-## 8. Read, generate, and modify configuration
-
-### 8a. Demonstrate use of variables and outputs
-
-- **Variables**: Used to parameterize Terraform configurations.
-
-  ```hcl
-  variable "my-var" {
-  description = "My Test Variable"
-  type = string
-  default = "Hello"
-  validation {
-    condition = length(var.my-bat) >
-    error_message = "String more than 4 characters"
-  }
-  }
-  ```
-
-  ```hcl
-  variable "my-var" {
-  description = "My Test Variable"
-  type = string
-  default = "Hello"
-  sensitive = true
-  }
-  ```
-
-- **Outputs**: Used to return values from modules or the root module.
-
-  ```hcl
-  output "instance_ip" {
-  description = "VM's Private IP" # Variable config arguments such as variable description and value
-  value = aws_instance.my-vm.private_ip
-  }
-  ```
-
-### 8b. Describe secure secret injection best practice
-
-- **Best Practices**: Use environment variables or secret management tools (e.g., Vault) to inject secrets securely into Terraform configurations without exposing them in code or state files.
-
-### 8c. Understand the use of collection and structural types
-
-- **Types**: Terraform supports collections like lists and maps, and structural types like objects and tuples, which help handle complex data structures.
-
-  ```hcl
-  variable "training" {
-  type = list(string)
-  default = ["ACG","LA"] # Two separate strings in one variable
-  }
-  ```
-
-  ```hcl
-  variable "instructor" {
-    type = object ({
-      name = string
-      age = number # Primitive types several named attributes
-    })
-  }
-  ```
-
-### 8d. Create and differentiate resource and data configuration
-
-- **Resources**: Used to create and manage infrastructure (e.g., `aws_instance`).
-- **Data Sources**: Used to fetch existing resources or data that Terraform does not manage (e.g., `aws_ami`).
-
-### 8e. Use resource addressing and resource parameters to connect resources together
-
-- **Resource Addressing**: Terraform allows you to reference resources using their addresses, like `aws_instance.my_instance`. This is used to define relationships and dependencies between resources.
-
-  ```hcl
-  provider "aws" {
-    region = "us-east-1" # Configuration parameters
-  }
-  ```
-
-  ```hcl
-  resource "aws_instance" "web" {
-  ami = "ami-a1bsas9as9" # Configuration parameters
-  instance_type = "t4g.medium"
-  }
-  ```
-
-  ```hcl
-  data "aws_instance" "my-vm" {
-  instance_id = "i-1asd12321eeadfs1"
-  }
-  # Resource Address --> data.aws_instance.my-vm
-  ```
-
-### 8f. Use HCL and Terraform functions to write configuration
-
-- **HCL (HashiCorp Configuration Language)**: The syntax used for writing Terraform configuration files. It is designed to be both human-readable and machine-friendly.
-- **Terraform Functions**: Terraform includes built-in functions such as `join()`, `split()`, and `lookup()` that are used to manipulate and manage data within configuration files.
-
-### 8g. Describe built-in dependency management (order of execution based)
-
-- **Dependency Management**: Terraform automatically manages dependencies between resources. It understands which resources need to be created or destroyed first based on their dependencies. This ensures that the infrastructure is created and modified in the correct order.
-
-## 9. Understand HCP Terraform capabilities
-
-### 9a. Explain how HCP Terraform helps to manage infrastructure
-
-- **HCP Terraform**: The HashiCorp Cloud Platform (HCP) provides a managed service for Terraform that includes features like secure remote state storage, team collaboration, and governance.
-
-### 9b. Describe how HCP Terraform enables collaboration and governance
-
-- **Collaboration**: HCP Terraform allows multiple team members to work on the same Terraform configurations, with state management features to prevent conflicts.
-- **Governance**: Includes tools for policy enforcement (such as Sentinel) to ensure compliance with organizational standards and best practices.
