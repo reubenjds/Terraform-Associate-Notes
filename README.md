@@ -1,6 +1,6 @@
-# HashiCorp Certified: Terraform Associate (003) Notes
+# HashiCorp Certified: Terraform Associate (004) Notes
 
-This repository contains notes for the HashiCorp Certified: Terraform Associate (003) exam. The notes are based on the [official study guide](https://learn.hashicorp.com/tutorials/terraform/associate-study) provided by HashiCorp.
+This repository contains notes for the HashiCorp Certified: Terraform Associate (004) exam. The notes are based on the [official study guide](https://developer.hashicorp.com/terraform/tutorials/certification-004) provided by HashiCorp.
 
 > **For the exam objectives and general information go [here](./objectives.md)**
 
@@ -18,6 +18,8 @@ This repository contains notes for the HashiCorp Certified: Terraform Associate 
    1. [Terraform Providers](#terraform-providers)
    2. [Terraform Resources](#terraform-resources)
    3. [Terraform Data](#terraform-data)
+   4. [Meta-Arguments and Lifecycle (4f)](#meta-arguments-and-lifecycle)
+   5. [Custom Conditions (4g)](#custom-conditions)
 6. [Terraform State](#terraform-state)
    1. [Local State Storage](#local-state-storage)
    2. [Remote State Storage](#remote-state-storage)
@@ -25,6 +27,7 @@ This repository contains notes for the HashiCorp Certified: Terraform Associate 
 7. [Variables](#variables)
    1. [Base Types](#base-types)
    2. [Complex Types](#complex-types)
+   3. [Ephemeral Values and Write-only Arguments (4h)](#ephemeral-values)
 8. [Outputs](#outputs)
 9. [Terraform Provisioners](#terraform-provisioners)
 10. [Terraform Modules](#terraform-modules)
@@ -46,7 +49,7 @@ This repository contains notes for the HashiCorp Certified: Terraform Associate 
     4. [Terraform Cloud Workspaces](#terraform-cloud-workspaces)
     5. [Terraform OSS Workspaces](#terraform-oss-workspaces)
     6. [Benefits of Terraform Cloud](#benefits-of-terraform-cloud)
-20. [Benefits of Terraform Cloud](#benefits-of-terraform-cloud)
+    7. [HCP Terraform Projects and Workspaces (8c)](#hcp-projects)
 
 ---
 
@@ -150,6 +153,25 @@ data "<PROVIDER>_<DATA_SOURCE_TYPE>" "<NAME>" {
 }
 ```
 
+### Meta-Arguments and Lifecycle (4f)
+
+Meta-arguments are special arguments that can be used with any resource type to change its behavior.
+
+- **depends_on**: Used to create explicit dependencies between resources. Use this when Terraform cannot automatically detect a relationship (hidden dependency).
+- **lifecycle**: A nested block used to customize how Terraform handles resource creation, updates, and destruction.
+  - **create_before_destroy**: By default, Terraform deletes a resource before creating its replacement. Setting this to `true` ensures the new resource is created first to reduce downtime.
+  - **prevent_destroy**: Provides a safety measure against accidental deletion.
+  - **ignore_changes**: Ignores updates to specific resource attributes.
+
+
+### Custom Conditions (4g)
+
+Custom conditions allow you to define validation logic within resources and data sources to ensure infrastructure meets specific requirements.
+
+- **precondition**: Evaluates a condition **before** an action (like an update or creation) is taken on the resource. It ensures the environment or inputs are valid before proceeding.
+- **postcondition**: Evaluates a condition **after** the resource is processed. It checks that the resulting state or attributes of the resource are what was expected.
+- **Validation**: If a condition fails, Terraform stops the operation and displays a custom error message, preventing invalid infrastructure states.
+
 ### Addressing Provider, Data, and Resource Blocks
 
 | **Block Type** | **Addressing Format**             |
@@ -248,6 +270,13 @@ variable "port" {
 | Set      | A collection of unique values           | `set("item1", "item2")`   |
 | Object   | A collection of named attributes        | `object({name=string})`   |
 | Tuple    | A sequence of values of different types | `tuple([string, number])` |
+
+### Ephemeral Values and Write-only Arguments (4h)
+
+Terraform provides mechanisms to handle data that should not be persisted or is inherently restricted.
+
+- **Ephemeral Values**: Resources or variables marked as ephemeral are used during the plan and apply cycle but are **never stored in the Terraform state file**. This is critical for highly sensitive temporary credentials.
+- **Write-only Arguments**: Some resource arguments are "write-only," meaning you can send a value to the provider (like a password), but the provider's API does not allow reading that value back. Terraform handles these as sensitive and does not track the value in state once applied.
 
 ## Outputs
 
@@ -569,7 +598,7 @@ Example output:
 
 ![Terraform Cloud Folder](./assets/tf-cloud.png)
 
-### Terraform OSS Workspaces
+### Terraform Cloud Workspaces
 
 - **Definition**: Stores alternate state files in the same working directory.
 - **Feature**: Creates separate directories within the main Terraform directory.
@@ -596,3 +625,13 @@ Example output:
 | **Ease of Setup**             | Simple setup with Terraform Cloud integration                       | Very easy, no setup needed for local use                          | Requires configuration of backend and authentication                                 |
 | **Cost**                      | Subscription-based pricing model for HCP                            | No cost beyond local storage                                      | Cost depends on the external storage service (e.g., AWS S3 storage fees)             |
 | **Compliance and Governance** | Built-in compliance tools like Sentinel for policy enforcement      | No built-in compliance tools                                      | Compliance depends on the external service; may require custom solutions             |
+
+### HCP Terraform Projects and Workspaces (8c)
+
+HCP Terraform (formerly Terraform Cloud) organizes work differently than the open-source CLI.
+
+- **Projects**: These act as containers for workspaces. Projects allow teams to group workspaces by environment (e.g., Production vs. Development) or by business unit.
+- **Project-Level Permissions**: You can assign access rights at the project level, which automatically applies to all workspaces within that project.
+- **Workspace Organization**:
+    - **Workflow Types**: Workspaces can be VCS-driven (linked to GitHub/GitLab), CLI-driven (using local commands), or API-driven.
+    - **Execution Mode**: Workspaces define where Terraform runs—either on HCP Terraform's managed infrastructure (Remote) or on your own hardware (Agent).
