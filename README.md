@@ -6,50 +6,69 @@ This repository contains notes for the HashiCorp Certified: Terraform Associate 
 
 ## Table of Contents
 
-1. [Infrastructure as Code (IaC)](#infrastructure-as-code-iac)
-2. [Terraform Workflow](#terraform-workflow)
-3. [Terraform Commands](#terraform-commands)
-   1. [Terraform Init](#terraform-init)
-   2. [Terraform Plan](#terraform-plan)
-   3. [Terraform Apply](#terraform-apply)
-   4. [Terraform Destroy](#terraform-destroy)
-4. [Installing Terraform](#installing-terraform)
-5. [Common Terraform Blocks](#terraform-blocks)
-   1. [Terraform Providers](#terraform-providers)
-   2. [Terraform Resources](#terraform-resources)
-   3. [Terraform Data](#terraform-data)
-   4. [Meta-Arguments and Lifecycle (4f)](#meta-arguments-and-lifecycle)
-   5. [Custom Conditions (4g)](#custom-conditions)
-6. [Terraform State](#terraform-state)
-   1. [Local State Storage](#local-state-storage)
-   2. [Remote State Storage](#remote-state-storage)
-   3. [Terraform State Commands](#terraform-state-commands)
-7. [Variables](#variables)
-   1. [Base Types](#base-types)
-   2. [Complex Types](#complex-types)
-   3. [Ephemeral Values and Write-only Arguments (4h)](#ephemeral-values)
-8. [Outputs](#outputs)
-9. [Terraform Provisioners](#terraform-provisioners)
-10. [Terraform Modules](#terraform-modules)
-11. [Terraform Built-in Functions](#terraform-built-in-functions)
-12. [Type Constraints - Terraform Variables](#type-constraints)
-13. [Dynamic Blocks](#dynamic-blocks)
-14. [Additional Terraform Commands](#additional-terraform-commands)
-15. [Terraform CLI Utilities](#additional-terraform-commands)
-    1. [Terraform fmt](#terraform-fmt)
-    2. [Terraform apply -replace](#terraform-apply--replace)
-    3. [Terraform import](#terraform-import)
-16. [Terraform Configuration Block](#terraform-configuration-block)
-17. [Terraform Workspaces](#terraform-workspaces)
-18. [Debugging Terraform](#debugging-terraform)
-19. [Terraform Cloud and Enterprise Offerings](#terraform-cloud-and-enterprise-offerings)
-    1. [Hashicorp Sentinel](#hashicorp-sentinel)
-    2. [Terraform Vault](#hasicorp-vault)
-    3. [Terraform Registry](#terraform-registry)
-    4. [Terraform Cloud Workspaces](#terraform-cloud-workspaces)
-    5. [Terraform OSS Workspaces](#terraform-oss-workspaces)
-    6. [Benefits of Terraform Cloud](#benefits-of-terraform-cloud)
-    7. [HCP Terraform Projects and Workspaces (8c)](#hcp-projects)
+- [HashiCorp Certified: Terraform Associate (004) Notes](#hashicorp-certified-terraform-associate-004-notes)
+  - [Table of Contents](#table-of-contents)
+  - [Infrastructure as Code (IaC)](#infrastructure-as-code-iac)
+  - [Terraform Workflow](#terraform-workflow)
+  - [Terraform Commands](#terraform-commands)
+    - [Terraform Init](#terraform-init)
+    - [Terraform Plan](#terraform-plan)
+    - [Terraform Apply](#terraform-apply)
+    - [Terraform Destroy](#terraform-destroy)
+  - [Installing Terraform](#installing-terraform)
+  - [Terraform Blocks](#terraform-blocks)
+    - [Terraform Providers](#terraform-providers)
+    - [Terraform Resources](#terraform-resources)
+    - [Terraform Data](#terraform-data)
+    - [Meta-Arguments and Lifecycle (4f)](#meta-arguments-and-lifecycle-4f)
+    - [Custom Conditions (4g)](#custom-conditions-4g)
+    - [Addressing Provider, Data, and Resource Blocks](#addressing-provider-data-and-resource-blocks)
+  - [Terraform State](#terraform-state)
+    - [Local State Storage](#local-state-storage)
+    - [Remote State Storage](#remote-state-storage)
+    - [Terraform State Commands](#terraform-state-commands)
+  - [Variables](#variables)
+    - [Base Types](#base-types)
+    - [Sensitive Variables](#sensitive-variables)
+    - [Variable Validation](#variable-validation)
+    - [Complex Types](#complex-types)
+    - [Ephemeral Values and Write-only Arguments (4h)](#ephemeral-values-and-write-only-arguments-4h)
+  - [Outputs](#outputs)
+  - [Terraform Provisioners](#terraform-provisioners)
+    - [Remote Execution Provisioners](#remote-execution-provisioners)
+    - [Local Exec Provisioners](#local-exec-provisioners)
+  - [Terraform Modules](#terraform-modules)
+    - [Accessing Terraform Modules](#accessing-terraform-modules)
+    - [Using Terraform Modules](#using-terraform-modules)
+    - [Declaring Modules in Code](#declaring-modules-in-code)
+    - [Terraform Module Outputs](#terraform-module-outputs)
+  - [Terraform Built-in Functions](#terraform-built-in-functions)
+  - [Type Constraints](#type-constraints)
+    - [Primitive Types](#primitive-types)
+    - [Complex Types](#complex-types-1)
+  - [Dynamic Blocks](#dynamic-blocks)
+  - [Additional Terraform Commands](#additional-terraform-commands)
+    - [Terraform fmt](#terraform-fmt)
+    - [Terraform apply -replace](#terraform-apply--replace)
+    - [Terraform import](#terraform-import)
+    - [Terraform validate](#terraform-validate)
+    - [Terraform show](#terraform-show)
+    - [Terraform graph](#terraform-graph)
+    - [Terraform output](#terraform-output)
+    - [Terraform refresh](#terraform-refresh)
+    - [Terraform console](#terraform-console)
+  - [Terraform Configuration Block](#terraform-configuration-block)
+  - [Terraform Workspaces](#terraform-workspaces)
+  - [Debugging Terraform](#debugging-terraform)
+  - [HCP Terraform and Enterprise Offerings](#hcp-terraform-and-enterprise-offerings)
+    - [Hashicorp Sentinel](#hashicorp-sentinel)
+    - [Use Cases for Sentinel](#use-cases-for-sentinel)
+    - [HasiCorp Vault](#hasicorp-vault)
+    - [Terraform Registry](#terraform-registry)
+    - [HCP Terraform Workspaces](#hcp-terraform-workspaces)
+    - [HCP Terraform Workspaces](#hcp-terraform-workspaces-1)
+  - [Benefits of HCP Terraform](#benefits-of-hcp-terraform)
+    - [HCP Terraform Projects and Workspaces (8c)](#hcp-terraform-projects-and-workspaces-8c)
 
 ---
 
@@ -553,7 +572,7 @@ Example output:
   - `export TF_LOG=TRACE`
   - `export TF_LOG_PATH=./terraform.log`
 
-## Terraform Cloud and Enterprise Offerings
+## HCP Terraform and Enterprise Offerings
 
 ### Hashicorp Sentinel
 
@@ -588,22 +607,22 @@ Example output:
   - Collaborate with contributors on provider and module development.
   - Directly reference modules in Terraform code.
 
-### Terraform Cloud Workspaces
+### HCP Terraform Workspaces
 
-- **Definition**: Workspaces hosted in Terraform Cloud.
+- **Definition**: Workspaces hosted in HCP Terraform.
 - **Features**:
   - Stores old versions of state files by default.
   - Maintains a record of all execution activities.
-  - All Terraform commands are executed on managed Terraform Cloud VMs.
+  - All Terraform commands are executed on managed HCP Terraform VMs.
 
-![Terraform Cloud Folder](./assets/tf-cloud.png)
+![HCP Terraform Folder](./assets/tf-cloud.png)
 
-### Terraform Cloud Workspaces
+### HCP Terraform Workspaces
 
 - **Definition**: Stores alternate state files in the same working directory.
 - **Feature**: Creates separate directories within the main Terraform directory.
 
-## Benefits of Terraform Cloud
+## Benefits of HCP Terraform
 
 - **Collaboration**: Enables a collaborative Terraform workflow.
   - Remote execution of Terraform.
@@ -622,7 +641,7 @@ Example output:
 | **Security**                  | Secure storage with encryption and automated backups                | Relies on local machine's security; encryption is manual          | Security features depend on the remote service (e.g., server-side encryption for S3) |
 | **Backup and Recovery**       | Automatic state versioning and backups                              | Manual backups required                                           | Automatic backups and versioning can be configured (e.g., S3 versioning)             |
 | **Scalability**               | Highly scalable, managed by HashiCorp                               | Limited by local machine's storage capacity and performance       | Scalable based on the chosen external storage solution                               |
-| **Ease of Setup**             | Simple setup with Terraform Cloud integration                       | Very easy, no setup needed for local use                          | Requires configuration of backend and authentication                                 |
+| **Ease of Setup**             | Simple setup with HCP Terraform integration                       | Very easy, no setup needed for local use                          | Requires configuration of backend and authentication                                 |
 | **Cost**                      | Subscription-based pricing model for HCP                            | No cost beyond local storage                                      | Cost depends on the external storage service (e.g., AWS S3 storage fees)             |
 | **Compliance and Governance** | Built-in compliance tools like Sentinel for policy enforcement      | No built-in compliance tools                                      | Compliance depends on the external service; may require custom solutions             |
 
